@@ -1,5 +1,7 @@
+import json
+
 import tornado.web
-from personal_project.Module.User import User
+from Module.User import User
 
 
 class Log_in(tornado.web.RequestHandler):
@@ -20,7 +22,7 @@ class Log_in(tornado.web.RequestHandler):
             user = user.log_in(self.datebase, user)
 
             if user is not False:
-                self.set_secure_cookie('user', user.id + '-' + user.password)
+                self.set_secure_cookie('user', str(user.id) + '-' + user.password)
                 self.result['result'] = True
             else:
                 self.result['result'] = False
@@ -29,4 +31,4 @@ class Log_in(tornado.web.RequestHandler):
             self.result['result'] = False
             self.result['message']['error'] = '参数传递错误'
 
-        self.finish(self.result)
+        self.finish(json.dumps(self.result))

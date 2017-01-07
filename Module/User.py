@@ -7,7 +7,7 @@ Base = declarative_base()
 
 
 class User(Base):
-    __tablename__ = 'user'
+    __tablename__ = 'auth_user_user'
 
     id = Column(Integer(), primary_key=True, autoincrement=True)
     name = Column(String(20))
@@ -22,15 +22,18 @@ class User(Base):
     def registration(self, session, user):
         flag = session().query(User).filter(User.telphone == user.telphone).all()
         if len(flag) == 0:
-            session().add(user)
-            session().commit()
-            return True
+            if len(session().query(User.nickname).filter(User.nickname == user.nickname).all()) == 0:
+                session().add(user)
+                session().commit()
+                return True
+            else:
+                return '昵称已存在'
         else:
             return '手机号已存在'
 
     def log_in(self, session, user):
-        user = session().query(User).filter(User.telphone == user.telphone).first()
-        if user is not None and user.password == user.password:
-            return user
+        flag = session().query(User).filter(User.telphone == user.telphone).first()
+        if flag is not None and flag.password == user.password:
+            return flag
         else:
             return False
