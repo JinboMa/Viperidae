@@ -33,7 +33,11 @@ class User(Base):
 
     def log_in(self, session, user):
         flag = session().query(User).filter(User.telphone == user.telphone).first()
-        if flag is not None and flag.password == user.password:
-            return flag
+        if flag is not None:
+            print('user id : {}'.format(flag.id))
+            if flag.password == user.password:
+                return flag
+            else:
+                return '密码错误'
         else:
             return False
