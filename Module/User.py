@@ -40,4 +40,4 @@ class User(Base):
             else:
                 return '密码错误'
         else:
-            return False
+            return '用户不存在'

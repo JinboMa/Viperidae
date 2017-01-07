@@ -7,6 +7,7 @@ from sqlalchemy.orm import scoped_session
 from sqlalchemy.orm import sessionmaker
 from Business.log_in import Log_in
 from Business.registration import Registration
+from Business.user_setting import User_setting
 
 
 class Application(tornado.web.Application):
@@ -17,7 +18,8 @@ class Application(tornado.web.Application):
 
         handlers = [
             (r'/login', Log_in),
-            (r'/registration', Registration)
+            (r'/registration', Registration),
+            (r'/user/setting', User_setting),
         ]
         settings = dict(
             debug=True,

@@ -1,5 +1,4 @@
 import json
-
 import tornado.web
 from Module.User import User
 
@@ -13,6 +12,10 @@ class Log_in(tornado.web.RequestHandler):
     def datebase(self):
         return self.application.datebase
 
+    def prepare(self):
+        self.result['result'] = None
+        self.result['message'] = {}
+
     def post(self, *args, **kwargs):
         try:
             telphone = self.get_argument('telphone')
@@ -22,12 +25,17 @@ class Log_in(tornado.web.RequestHandler):
             user = user.log_in(self.datebase, user)
 
             if user is not False:
-                self.set_secure_cookie('user', str(user.id) + '-' + user.password)
-                self.result['result'] = True
+                if isinstance(user, User):
+                    self.set_secure_cookie('user', str(user.id) + '-' + user.password)
+                    self.result['result'] = True
+                else:
+                    self.result['result'] = False
+                    self.result['message']['error'] = user
             else:
                 self.result['result'] = False
-                self.result['message']['error'] = '用户不存在'
-        except:
+                self.result['message']['error'] = '未知错误'
+        except Exception as e:
+            print(str(e))
             self.result['result'] = False
             self.result['message']['error'] = '参数传递错误'
 
