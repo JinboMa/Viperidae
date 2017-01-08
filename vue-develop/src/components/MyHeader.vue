@@ -32,6 +32,7 @@ export default {
 		this.setTime()
 	},
 	methods : {
+		//设置右上角时间
 		setTime : function(){
 			var Timer = setInterval(()=>{
 				var date = new Date(),

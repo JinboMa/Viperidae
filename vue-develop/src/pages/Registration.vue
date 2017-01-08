@@ -45,18 +45,15 @@ export default {
 	methods: {
 		//发送登录请求
 		postMessage : function(){
-			this.$router.push({ path: '/', query: { nickname : this.formData.nickname }})
-			this.$http.post("http://120.26.100.13:8088/registration",this.formData,{headers: {'Content-Type': 'x-www-from-urlencoded'}}).then((data)=>{
-				if(data.result){
-					this.$message({
-						message: '注册成功',
-						type: 'success'
-					})
-					this.$router.push({ path: '/', query: { nickname : this.formData.nickname }})
-				}else{
-					this.$message.error(data.message)
-				}
-				this.loading = false
+			this.ajax({
+				method : "POST",
+				url : "registration",
+				formData : this.formData,
+				option : 1,
+				successMsg : "登录成功",
+				success : this.success,
+				failMsg : "登录失败",
+				fail : this.fail
 			})
 		},
 		//表单验证
@@ -66,9 +63,17 @@ export default {
 					this.loading = true
 					this.postMessage()
 				} else {
-					this.$message.error("data.message")
+					this.$message.error("请正确填写数据")
 				}
 			})
+		},
+		//请求成功函数
+		success : function(res){
+			this.$router.push({ path: '/', query: { nickname : this.formData.nickname }})
+		},
+		//请求失败
+		fail : function(res){
+			console.log("失败")
 		}
 	}
 }
