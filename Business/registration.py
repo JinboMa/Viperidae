@@ -32,4 +32,4 @@ class Registration(BaseHandler):
         else:
             self.result['result'] = False
             self.result['message']['error'] = result
-        self.finish(json.dumps(self.result))
+        self.finish(self.result)

@@ -20,4 +20,4 @@ class LoginRequireHandler(tornado.web.RequestHandler):
         except:
             self.result['result'] = False
             self.result['message'] = '尚未登陆'
-            self.finish(json.dumps(self.result))
+            self.finish(self.result)

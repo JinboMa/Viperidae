@@ -40,4 +40,4 @@ class Log_in(BaseHandler):
             self.result['result'] = False
             self.result['message']['error'] = '参数传递错误'
 
-        self.finish(json.dumps(self.result))
+        self.finish(self.result)

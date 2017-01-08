@@ -39,7 +39,7 @@ class Event(Base):
 
 if __name__ == '__main__':
     engine = create_engine(
-        "mysql+pymysql://root:xuzhaoning@localhost:3306/test?charset=utf8",
+        "mysql+pymysql://root:xuzhaoning@23.105.208.8:3306/personal?charset=utf8",
         echo=True)
 
     Base.metadata.create_all(engine)

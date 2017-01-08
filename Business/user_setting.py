@@ -48,4 +48,4 @@ class User_setting(BaseHandler):
             self.result['result'] = False
             self.result['message']['error'] = '请求参数错误'
 
-        self.finish(json.dumps(self.result))
+        self.finish(self.result)

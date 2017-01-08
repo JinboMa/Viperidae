@@ -1,6 +1,7 @@
 from sqlalchemy import Column
 from sqlalchemy import DateTime
 from sqlalchemy import String, Integer
+from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 
 Base = declarative_base()
@@ -41,3 +42,11 @@ class User(Base):
                 return '密码错误'
         else:
             return '用户不存在'
+
+
+if __name__ == '__main__':
+    engine = create_engine(
+        "mysql+pymysql://root:xuzhaoning@23.105.208.8:3306/personal?charset=utf8",
+        echo=True)
+
+    Base.metadata.create_all(engine)

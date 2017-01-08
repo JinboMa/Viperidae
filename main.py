@@ -14,15 +14,12 @@ from Business.create_event import Create_Event
 
 class Application(tornado.web.Application):
     def __init__(self):
-        # engine = create_engine(
-        #     "mysql+pymysql://youdian_test1:youdian@test1@shouzhan1.51fubei.com:3306/youdian_online?charset=utf8",
-        #     echo=True)
-
         engine = create_engine(
-            "mysql+pymysql://root:xuzhaoning@localhost:3306/test?charset=utf8",
+            "mysql+pymysql://root:xuzhaoning@23.105.208.8:3306/personal?charset=utf8",
             echo=True)
 
         handlers = [
+
             (r'/login', Log_in),
             (r'/registration', Registration),
             (r'/user/setting', User_setting),
