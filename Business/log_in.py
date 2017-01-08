@@ -1,9 +1,10 @@
 import json
 import tornado.web
 from Module.User import User
+from Business.BaseHandler import BaseHandler
 
 
-class Log_in(tornado.web.RequestHandler):
+class Log_in(BaseHandler):
     result = {
         'result': None,
         'message': {}

@@ -1,11 +1,12 @@
 import json
 
 import tornado.web
+from Business.BaseHandler import BaseHandler
 
 from Module.User import User
 
 
-class User_setting(tornado.web.RequestHandler):
+class User_setting(BaseHandler):
     result = {
         'result': None,
         'message': {}

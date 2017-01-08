@@ -2,9 +2,10 @@ import datetime
 import json
 import tornado.web
 from Module.User import User
+from Business.BaseHandler import BaseHandler
 
 
-class Registration(tornado.web.RequestHandler):
+class Registration(BaseHandler):
     result = {
         'result': None,
         'message': {}
