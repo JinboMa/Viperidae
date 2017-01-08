@@ -8,7 +8,7 @@ Base = declarative_base()
 
 
 class User(Base):
-    __tablename__ = 'auth_user_user'
+    __tablename__ = 'user'
 
     id = Column(Integer(), primary_key=True, autoincrement=True)
     name = Column(String(20))

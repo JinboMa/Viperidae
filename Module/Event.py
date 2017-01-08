@@ -10,7 +10,7 @@ Base = declarative_base()
 
 
 class Event(Base):
-    __tablename__ = 'auth_user_event'
+    __tablename__ = 'event'
 
     id = Column(Integer(), primary_key=True, autoincrement=True)  # 主键
     event_name = Column(String(50))  # 时间名称
