@@ -8,18 +8,27 @@ from sqlalchemy.orm import sessionmaker
 from Business.log_in import Log_in
 from Business.registration import Registration
 from Business.user_setting import User_setting
+from Business.get_event import Get_Event
+from Business.create_event import Create_Event
 
 
 class Application(tornado.web.Application):
     def __init__(self):
+        # engine = create_engine(
+        #     "mysql+pymysql://youdian_test1:youdian@test1@shouzhan1.51fubei.com:3306/youdian_online?charset=utf8",
+        #     echo=True)
+
         engine = create_engine(
-            "mysql+pymysql://youdian_test1:youdian@test1@shouzhan1.51fubei.com:3306/youdian_online?charset=utf8",
+            "mysql+pymysql://root:xuzhaoning@localhost:3306/test?charset=utf8",
             echo=True)
 
         handlers = [
             (r'/login', Log_in),
             (r'/registration', Registration),
             (r'/user/setting', User_setting),
+
+            (r'/event/create_event', Create_Event),
+            (r'/event/get_event', Get_Event),
         ]
         settings = dict(
             debug=True,
