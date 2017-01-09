@@ -16,7 +16,7 @@ class Application(tornado.web.Application):
     def __init__(self):
         engine = create_engine(
             "mysql+pymysql://root:xuzhaoning@23.105.208.8:3306/personal?charset=utf8",
-            echo=True)
+            echo=False)
 
         handlers = [
 

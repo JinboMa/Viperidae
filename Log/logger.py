@@ -1,6 +1,7 @@
-import logging
 import datetime
 
-def get_logging():
-    logging.basicConfig(filename='log/{}'.format(datetime.date.today()), level=logging.INFO)
-    return logging
+
+def write(level, content):
+    with open('./Log/log/{}'.format(datetime.date.today()), 'a') as f:
+        f.write('[{}][{}]{}'.format(level, datetime.datetime.now(), content))
+        f.write('\n')
