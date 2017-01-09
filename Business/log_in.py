@@ -1,7 +1,6 @@
-import json
-import tornado.web
+from Handler.BaseHandler import BaseHandler
 from Module.User import User
-from Business.BaseHandler import BaseHandler
+from Log.logger import get_logging
 
 
 class Log_in(BaseHandler):
@@ -16,11 +15,14 @@ class Log_in(BaseHandler):
     def prepare(self):
         self.result['result'] = None
         self.result['message'] = {}
+        self.log = get_logging()
 
     def post(self, *args, **kwargs):
         try:
             telphone = self.get_argument('telphone')
             password = self.get_argument('password')
+
+            self.log('[Log_in] telphone:{}, password:{}'.format(telphone, password))
 
             user = User(telphone=telphone, password=password)
             user = user.log_in(self.datebase, user)

@@ -35,11 +35,3 @@ class Event(Base):
         session.add(event)
         session.commit()
         return True
-
-
-if __name__ == '__main__':
-    engine = create_engine(
-        "mysql+pymysql://root:xuzhaoning@23.105.208.8:3306/personal?charset=utf8",
-        echo=True)
-
-    Base.metadata.create_all(engine)

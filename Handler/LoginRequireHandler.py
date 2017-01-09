@@ -1,8 +1,4 @@
-import json
-
 import tornado.web
-
-from Business.BaseHandler import BaseHandler
 
 
 class LoginRequireHandler(tornado.web.RequestHandler):
