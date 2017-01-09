@@ -14,13 +14,10 @@ class Registration(BaseHandler):
     def datebase(self):
         return self.application.datebase
 
-
     def post(self, *args, **kwargs):
         telphone = self.get_argument('telphone')
         password = self.get_argument('password')
         nickname = self.get_argument('nickname')
-
-        print('nickname:{}'.format(nickname))
 
         registration_time = datetime.datetime.now()
 

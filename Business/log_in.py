@@ -36,7 +36,6 @@ class Log_in(BaseHandler):
                 self.result['result'] = False
                 self.result['message']['error'] = '未知错误'
         except Exception as e:
-            print(str(e))
             self.result['result'] = False
             self.result['message']['error'] = '参数传递错误'
 
