@@ -1,7 +1,7 @@
 import datetime
 from Handler.BaseHandler import BaseHandler
 from Module.User import User
-from Log.logger import write
+from Log.logger import write, space
 
 
 class Registration(BaseHandler):
@@ -35,4 +35,6 @@ class Registration(BaseHandler):
             write('INFO', '[Registration] registration false, result:{}'.format(result))
             self.result['result'] = False
             self.result['message']['error'] = result
+
+        space()
         self.finish(self.result)

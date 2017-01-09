@@ -11,14 +11,14 @@ class User(Base):
     __tablename__ = 'user'
 
     id = Column(Integer(), primary_key=True, autoincrement=True)
-    name = Column(String(20))
-    nickname = Column(String(20))
-    password = Column(String(30))
-    email = Column(String(30))
-    telphone = Column(String(20))
-    registration_time = Column(DateTime())
-    picture = Column(String(30))
-    id_number = Column(String(30))
+    name = Column(String(20))  # 真实姓名
+    nickname = Column(String(20))  # 昵称
+    password = Column(String(30))  # 密码
+    email = Column(String(30))  # 邮箱
+    telphone = Column(String(20))  # 电话号码
+    registration_time = Column(DateTime())  # 注册时间
+    picture = Column(String(30))  # 头像
+    id_number = Column(String(30))  # 身份证号
 
     def registration(self, session, user):
         flag = session().query(User).filter(User.telphone == user.telphone).all()
@@ -28,10 +28,8 @@ class User(Base):
                 session().commit()
                 return True
             else:
-                write('INFO', '[User][registration] 昵称已存在')
                 return '昵称已存在'
         else:
-            write('INFO', '[User][registration] 手机号已存在')
             return '手机号已存在'
 
     def log_in(self, session, user):
@@ -40,8 +38,6 @@ class User(Base):
             if flag.password == user.password:
                 return flag
             else:
-                write('INFO', '[User][log_in] 密码错误')
                 return '密码错误'
         else:
-            write('INFO', '[User][log_in] 用户不存在')
             return '用户不存在'
