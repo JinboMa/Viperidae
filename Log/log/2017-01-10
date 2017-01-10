@@ -1,0 +1,28 @@
+[ERROR][2017-01-10 16:55:41.260418]b'HTTP 400: Bad Request (Missing argument title)'
+
+[ERROR][2017-01-10 16:56:17.164143]b'HTTP 400: Bad Request (Missing argument title)'
+
+[ERROR][2017-01-10 16:56:59.862949]b'HTTP 400: Bad Request (Missing argument title)'
+
+[ERROR][2017-01-10 16:58:03.234440]b'HTTP 400: Bad Request (Missing argument title)'
+
+[ERROR][2017-01-10 16:59:41.645120]b'HTTP 400: Bad Request (Missing argument title)'
+
+
+[ERROR][2017-01-10 17:00:39.951644]b'HTTP 400: Bad Request (Missing argument title)'
+
+
+[ERROR][2017-01-10 17:01:36.801302]b'HTTP 400: Bad Request (Missing argument title)'
+
+
+[ERROR][2017-01-10 17:03:04.646758]b'HTTP 400: Bad Request (Missing argument title)'
+
+
+[INFO][2017-01-10 17:04:21.965116]b'[Create Blog] title:hello, author:hello, create_time:2017-01-10 17:04:21.964954, last_edit_time:2017-01-10 17:04:21.964963'
+[INFO][2017-01-10 17:04:21.965411]b'[Create Blog] content:hello'
+[INFO][2017-01-10 17:04:37.723883]b'[Create Blog] add blog success'
+
+[INFO][2017-01-10 17:05:29.115461]b'[Create Blog] title:hello, author:hello, create_time:2017-01-10 17:05:29.115346, last_edit_time:2017-01-10 17:05:29.115351'
+[INFO][2017-01-10 17:05:29.115606]b'[Create Blog] content:hello'
+[INFO][2017-01-10 17:05:30.534874]b'[Create Blog] add blog success'
+
