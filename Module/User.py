@@ -26,6 +26,7 @@ class User(Base):
             if len(session().query(User.nickname).filter(User.nickname == user.nickname).all()) == 0:
                 session().add(user)
                 session().commit()
+                session().close()
                 return True
             else:
                 return '昵称已存在'
@@ -34,6 +35,7 @@ class User(Base):
 
     def log_in(self, session, user):
         flag = session().query(User).filter(User.telphone == user.telphone).first()
+        session().close()
         if flag is not None:
             if flag.password == user.password:
                 return flag
