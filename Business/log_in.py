@@ -1,6 +1,6 @@
 from Handler.BaseHandler import BaseHandler
 from Module.User import User
-from Log.logger import write
+from Log.logger import write, space
 
 
 class Log_in(BaseHandler):
@@ -44,4 +44,5 @@ class Log_in(BaseHandler):
             self.result['result'] = False
             self.result['message']['error'] = '参数传递错误'
 
+        space()
         self.finish(self.result)

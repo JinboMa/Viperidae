@@ -21,11 +21,12 @@ class Event(Base):
     is_open = Column(Boolean())  # 是否公开
     status = Column(String(20))  # 状态
     off_time = Column(DateTime())  # 关闭时间
-    belong = Column(Integer(), ForeignKey(User.id))
+    belong = Column(Integer(), ForeignKey(User.id))  # 所属
 
     def get_event_by_id(self, session, user_id):
         events = session().query(Event.id, Event.event_name, Event.remarks, Event.priority).filter(
             Event.belong == user_id).all()
+        session().close()
         if len(events) == 0:
             return None
         else:
@@ -34,4 +35,5 @@ class Event(Base):
     def create_event(self, session, event):
         session.add(event)
         session.commit()
+        session().close()
         return True
