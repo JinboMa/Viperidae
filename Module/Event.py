@@ -1,10 +1,9 @@
 from sqlalchemy import Column
 from sqlalchemy import ForeignKey
 from sqlalchemy import String, Integer, Boolean, DateTime
-from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import relationship
 from Module.User import User
+from Log.logger import write, space
 
 Base = declarative_base()
 
@@ -26,7 +25,6 @@ class Event(Base):
     def get_event_by_id(self, session, user_id):
         events = session().query(Event.id, Event.event_name, Event.remarks, Event.priority).filter(
             Event.belong == user_id).all()
-        session().close()
         if len(events) == 0:
             return None
         else:
@@ -34,6 +32,12 @@ class Event(Base):
 
     def create_event(self, session, event):
         session.add(event)
-        session.commit()
-        session().close()
-        return True
+        try:
+            session.commit()
+            return True
+        except Exception as e:
+            write('ERROR', e)
+            space()
+            return False
+        finally:
+            session().close()

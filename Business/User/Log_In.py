@@ -3,7 +3,7 @@ from Module.User import User
 from Log.logger import write, space
 
 
-class Log_in(BaseHandler):
+class Log_In(BaseHandler):
     result = {
         'result': None,
         'message': {}

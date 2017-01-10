@@ -4,7 +4,7 @@ from Handler.BaseHandler import BaseHandler
 from Module.User import User
 
 
-class User_setting(BaseHandler):
+class User_Setting(BaseHandler):
     result = {
         'result': None,
         'message': {}
