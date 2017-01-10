@@ -49,10 +49,7 @@ class Blog(Base):
     def edit_blog(self, session, id, user_id, title, content, last_edit_time):
         blog = session().query(Blog).get(id)
         session().close()
-        print(blog)
         if blog is not None:
-            print(blog.author)
-            print(user_id)
             if str(blog.author) == user_id:
                 blog.title = title
                 blog.content = content

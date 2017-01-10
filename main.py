@@ -7,8 +7,7 @@ from sqlalchemy.orm import scoped_session
 from sqlalchemy.orm import sessionmaker
 from Business.User import *
 from Business.Blog import *
-from Business.Event.Get_Event import Get_Event
-from Business.Event.Create_Event import Create_Event
+from Business.Event import *
 
 
 class Application(tornado.web.Application):
