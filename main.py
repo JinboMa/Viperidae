@@ -10,6 +10,10 @@ from Business.registration import Registration
 from Business.user_setting import User_setting
 from Business.get_event import Get_Event
 from Business.create_event import Create_Event
+from Business.Blog.Create_Blog import Create_Blog
+from Business.Blog.Get_User_Blogs import Get_User_Blog
+from Business.Blog.Blog_Details import Blog_Details
+from Business.Blog.Edit_Blog import Edit_Blog
 
 
 class Application(tornado.web.Application):
@@ -24,8 +28,14 @@ class Application(tornado.web.Application):
             (r'/registration', Registration),
             (r'/user/setting', User_setting),
 
-            (r'/event/create_event', Create_Event),
-            (r'/event/get_event', Get_Event),
+            (r'/event/create', Create_Event),
+            (r'/event/get', Get_Event),
+
+            (r'/blog/create', Create_Blog),
+            (r'/blog/edit', Edit_Blog),
+            (r'/blog/list', Get_User_Blog),
+            (r'/blog/(.*)', Blog_Details),
+
         ]
         settings = dict(
             debug=True,

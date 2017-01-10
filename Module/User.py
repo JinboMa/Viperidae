@@ -2,7 +2,7 @@ from sqlalchemy import Column
 from sqlalchemy import DateTime
 from sqlalchemy import String, Integer
 from sqlalchemy.ext.declarative import declarative_base
-from Log.logger import write
+from Log.logger import write, space
 
 Base = declarative_base()
 
@@ -25,9 +25,15 @@ class User(Base):
         if len(flag) == 0:
             if len(session().query(User.nickname).filter(User.nickname == user.nickname).all()) == 0:
                 session().add(user)
-                session().commit()
-                session().close()
-                return True
+                try:
+                    session().commit()
+                    return True
+                except Exception as e:
+                    write('ERROR', e)
+                    space()
+                    return '数据库执行错误'
+                finally:
+                    session().close()
             else:
                 return '昵称已存在'
         else:
@@ -43,3 +49,8 @@ class User(Base):
                 return '密码错误'
         else:
             return '用户不存在'
+
+    def get_user_by_id(self, session, user_id):
+        user = session().query(User).get(user_id)
+        session().close()
+        return user
