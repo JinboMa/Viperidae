@@ -1,7 +1,14 @@
 <template lang="pug">
-.blog
-	textarea(v-model="markText")
+.blog(:style="{height:blogH}" @click="hide = true" v-loading="loading" element-loading-text="正在提交,请稍等")
+	textarea(v-model="formData.content")
 	.html(v-html="markedHtml")
+	.markTit(:class="{hide:hide}") Markdown
+	.htmlTit(:class="{hide:hide}") HTML
+	el-card.card(v-bind:body-style="cardStyle" v-bind:class="{toLeft: !toLeft}")
+		input.title(v-model="formData.title" placeholder="在此填写标题")
+		el-button.button.right(type="primary" @click="postMessage") 提交此篇文章
+		el-button.button.left(type="text" @click="toLeft = false") 收起标题
+	el-switch.switch(v-model="toLeft" on-color="#324057" on-text="标题" off-text="标题")
 </template>
 
 <script>
@@ -10,36 +17,55 @@ import highlight from 'highlight'
 export default {
 	data(){
 		return {
-			markText : ""
+			blogH : "90%",
+			hide : false,
+			toLeft : true,
+			//表单提交时loading
+			loading : false,
+			//表单信息
+			formData: {
+				content : '',
+				title : ''
+			},
+			cardStyle : { 
+				padding: '25px 16px 16px' , 
+				width: '500px' ,
+				height: '100px'
+			}
 		}
 	},
 	created: function () {
 		marked.setOptions({
 			highlight: function (code) {
-				return highlight.highlightAuto(code).value;
+				return highlight.highlightAuto(code).value
 			}
-		});
+		})
+		this.setHeight
+		window.onresize = function(){
+			this.blogH = this.setHeight
+		}
+		window.onkeydown = function(e){
+			console.log(e.keyCode)
+		}
 	},
 	computed : {
 		markedHtml : function(){
-			return marked(this.markText)
+			return marked(this.formData.content)
 		}
 	},
 	methods : {
+		//发送登录请求
 		postMessage : function(){
-			this.ajax({
-				method : "GET",
-				url : "login",
-				formData : this.formData,
-				successMsg : "登录成功",
-				success : this.success,
-				failMsg : "登录失败",
-				fail : this.fail
-			})
+			this.loading = true
+			this.ajax(this.setAjax("blogCreate",this.formData,this.success,this.fail))
+		},
+		//表单验证
+		submitForm : function(formName) {
+			
 		},
 		//提交成功
 		success : function(res){
-			this.$router.push({ path: '/', query: { nickname : this.formData.nickname }})
+			this.$router.push('/')
 		},
 		//提交失败
 		fail : function(res){
@@ -54,10 +80,24 @@ export default {
 	width 100%
 	height 90%
 	background gray
+	position relative
+.markTit
+.htmlTit
+	font-size 70px
+	font-weight bold
+	position absolute
+	top 50%
+	z-index 2
+.markTit
+	left 25%
+	transform translate(-50%,-50%)
+.htmlTit
+	right 25%
+	transform translate(50%,-50%)
 textarea
 .html
 	width 50%
-	height 90%
+	height 100%
 	overflow scroll
 	float left
 	background #f6f6f6
@@ -70,4 +110,28 @@ textarea
 	border none
 	border-right 1px solid #ccc
 	resize none
+.card
+	position absolute
+	top 2%
+	left 50%
+	z-index 3
+	transform translateX(-50%)
+	transition left .8s
+.button
+	margin 10px
+.title
+	border none
+	border-bottom 1px solid #324057
+	width 100%
+	font-size 20px
+	color #324057
+	padding 0
+	margin 0
+	padding-bottom 5px
+.switch
+	position absolute
+	top 2%
+	right 2%
+.toLeft
+	left -50%
 </style>

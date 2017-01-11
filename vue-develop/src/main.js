@@ -25,6 +25,7 @@ import VueResource from 'vue-resource'
 Vue.use(VueResource)
 Vue.http.options.emulateJSON = true
 Vue.http.options.emulateHTTP = true
+Vue.http.options.credentials = true
 Vue.http.interceptors.push((request, next) => {
 		// ...
 		// 请求发送前的处理逻辑
@@ -39,6 +40,61 @@ Vue.http.interceptors.push((request, next) => {
 		return response
 	})
 	})
+
+//全局变量地址
+Vue.prototype.URL = "http://23.105.208.8/:8088/"
+//this.ajax(this.setAjax("login",this.formData,this.success,this.fail))
+//全局接口配置
+Vue.prototype.ajaxConfig = {
+	login : {
+				method : "POST",
+				url : "login",
+				successMsg : "登录成功",
+				failMsg : "登录失败",
+				successAlert : true,
+				failAlert : true
+	},
+	registration : {
+				method : "POST",
+				url : "registration",
+				successMsg : "注册成功",
+				failMsg : "注册失败",
+				successAlert : true,
+				failAlert : true
+	},
+	userSetting : {
+				method : "POST",
+				url : "user/setting",
+				successMsg : "设置成功",
+				failMsg : "设置失败",
+				successAlert : true,
+				failAlert : true
+	},
+	blogCreate : {
+				method : "POST",
+				url : "blog/create",
+				successMsg : "保存成功",
+				failMsg : "保存失败",
+				successAlert : true,
+				failAlert : true
+	},
+	blogEdit : {
+				method : "POST",
+				url : "blog/edit",
+				successMsg : "保存成功",
+				failMsg : "保存失败",
+				successAlert : true,
+				failAlert : true
+	},
+	blogList : {
+				method : "GET",
+				url : "blog/list",
+				successMsg : "获取成功",
+				failMsg : "获取失败",
+				successAlert : true,
+				failAlert : true
+	},
+}
 
 new Vue({
 	el: '#app',
@@ -63,8 +119,15 @@ new Vue({
 	template: '<App/>',
 	components: { App }
 })
-//全局变量地址
-Vue.prototype.URL = "http://120.26.100.13:8088/"
+
+//全局ajax处理
+Vue.prototype.setAjax = function(name,formData,success,fail){
+	var postData = this.ajaxConfig[name];
+		postData.formData = formData
+		postData.success = success
+		postData.fail = fail
+	return postData
+}
 
 //全局ajax方法
 Vue.prototype.ajax = function(data){
@@ -82,13 +145,13 @@ Vue.prototype.ajax = function(data){
 	//成功函数
 	(res)=>{
 		//正确提示
-		if(res.body.result){
+		if(res.body.result && data.successAlert){
 			this.$message({
 				message: data.successMsg,
 				type: 'success'
 			})
 			data.success(res.body)
-		}else{
+		}else if(data.failAlert){
 			//错误提示
 			this.$message.error(res.body.message.error)
 		}
@@ -100,4 +163,9 @@ Vue.prototype.ajax = function(data){
 		this.loading = false
 		data.fail(res)
 	})
+}
+
+Vue.prototype.setHeight = function(num){
+	let height = window.innerHeight
+	return (height - 60 - num)
 }

@@ -45,16 +45,7 @@ export default {
 	methods: {
 		//发送登录请求
 		postMessage : function(){
-			this.ajax({
-				method : "POST",
-				url : "registration",
-				formData : this.formData,
-				option : 1,
-				successMsg : "注册成功",
-				success : this.success,
-				failMsg : "注册失败",
-				fail : this.fail
-			})
+			this.ajax(this.setAjax("registration",this.formData,this.success,this.fail))
 		},
 		//表单验证
 		submitForm : function(formName) {

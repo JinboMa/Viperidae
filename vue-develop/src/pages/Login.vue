@@ -40,16 +40,7 @@ export default {
 	methods : {
 		//发送登录请求
 		postMessage : function(){
-			this.ajax({
-				method : "POST",
-				url : "login",
-				formData : this.formData,
-				option : 1,
-				successMsg : "登录成功",
-				success : this.success,
-				failMsg : "登录失败",
-				fail : this.fail
-			})
+			this.ajax(this.setAjax("login",this.formData,this.success,this.fail))
 		},
 		//表单验证
 		submitForm : function(formName) {
