@@ -41,6 +41,7 @@ class Blog(Base):
 
     def get_blogs_by_author(self, session, user_id):
         blogs = session().query(Blog).filter(Blog.author == user_id).all()
+        session().close()
         if len(blogs) != 0:
             return blogs
         else:
@@ -48,7 +49,6 @@ class Blog(Base):
 
     def edit_blog(self, session, id, user_id, title, content, last_edit_time):
         blog = session().query(Blog).get(id)
-        session().close()
         if blog is not None:
             if str(blog.author) == user_id:
                 blog.title = title
@@ -60,7 +60,11 @@ class Blog(Base):
                 except Exception as e:
                     print(str(e))
                     return '数据库操作失败'
+                finally:
+                    session().close()
             else:
+                session().close()
                 return '这不是你的文章'
         else:
+            session().close()
             return '没有这篇blog'
