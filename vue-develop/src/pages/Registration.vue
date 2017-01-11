@@ -50,9 +50,9 @@ export default {
 				url : "registration",
 				formData : this.formData,
 				option : 1,
-				successMsg : "登录成功",
+				successMsg : "注册成功",
 				success : this.success,
-				failMsg : "登录失败",
+				failMsg : "注册失败",
 				fail : this.fail
 			})
 		},

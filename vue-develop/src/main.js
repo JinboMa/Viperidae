@@ -11,10 +11,14 @@ import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-default/index.css'
 Vue.use(ElementUI)
 
+//引入highlight css
+import './assets/highlight.min.css'
+
 //路由页面引入
 import Index from './pages/Index'
 import Login from './pages/Login'
 import Registration from './pages/Registration'
+import Blog from './pages/Blog'
 
 //vue-resource引入(发送http请求)
 import VueResource from 'vue-resource'
@@ -50,13 +54,17 @@ new Vue({
 		{
 			path: "/Registration",
 			component: Registration
+		},
+		{
+			path: "/Blog",
+			component: Blog
 		}]
 	}),
 	template: '<App/>',
 	components: { App }
 })
 //全局变量地址
-Vue.prototype.URL = "http://23.105.208.8:8088/"
+Vue.prototype.URL = "http://120.26.100.13:8088/"
 
 //全局ajax方法
 Vue.prototype.ajax = function(data){

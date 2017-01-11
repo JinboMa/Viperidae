@@ -1,42 +1,34 @@
 <template lang="pug">
 .index
-	router-link(to="/Login") 登录
-	router-link(to="/Registration") 注册
-	el-button(type="primary" @click="postMessage") test
+	p {{Info}}
 </template>
 
 <script>
 export default {
 	data(){
 		return {
-			formData : {
-				tel : 13091719000
-			}
+			Info : "欢迎来到主页，新用户请点击注册！"
 		}
 	},
+	created: function () {
+	},
+	computed : {
+	},
 	methods : {
-		postMessage : function(){
-			this.ajax({
-				method : "GET",
-				url : "login",
-				formData : this.formData,
-				successMsg : "登录成功",
-				success : this.success,
-				failMsg : "登录失败",
-				fail : this.fail
-			})
-		},
-		//提交成功
-		success : function(res){
-			this.$router.push({ path: '/', query: { nickname : this.formData.nickname }})
-		},
-		//提交失败
-		fail : function(res){
-			console.log("失败")
-		}
 	}
 }
 </script>
 
 <style scoped lang="stylus">
+.index
+	width 1050px
+	position absolute
+	top 50%
+	left 50%
+	transform translate(-50%,-50%)
+p
+	font-size 20px
+	font-weight bold
+	color #324057
+	text-align center
 </style>

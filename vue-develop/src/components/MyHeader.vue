@@ -1,6 +1,6 @@
 <template lang="pug">
 	.myHeader
-		el-menu.el-menu-demo(theme="dark" default-active="1" mode="horizontal")
+		el-menu.el-menu-demo(theme="dark" v-bind:default-active="String(headerIndex)" mode="horizontal")
 			el-menu-item(index="1")
 				i.el-icon-menu
 			el-submenu(index="2")
@@ -8,43 +8,47 @@
 				el-menu-item(index="2-1") 工作列表
 				el-menu-item(index="2-2") 生活列表
 				el-menu-item(index="2-3") 其他列表
-			el-submenu(index="3")
-				template(slot="title") 社交
-				el-menu-item(index="2-1") 我的朋友圈
-				el-menu-item(index="2-2") 我的微博
-				el-menu-item(index="2-3") 我的QQ空间
-			el-menu-item(index="4") 直播
-			el-menu-item(index="5") 聊天
-			el-menu-item(index="6") 设置
+			el-menu-item(index="3")
+				router-link(to="/Blog") 我的博客
+			el-menu-item(index="4") 聊天
+			el-menu-item(index="5") 设置
 			el-menu-item.time(index="0" style="float:right") {{time}}
+			el-menu-item.time(index="-1" style="float:right")
+				router-link(to="/Login") 登录
 </template>
 
 <script>
 export default {
 	data(){
 		return {
-			time : ""
+			time : "",
+			headerIndex : 1
 		}
 	},
-	beforeCreat : function(){
-	},
 	created : function(){
-		this.setTime()
+		var Timer = setInterval(this.setTime,1000)
 	},
 	methods : {
 		//设置右上角时间
 		setTime : function(){
-			var Timer = setInterval(()=>{
-				var date = new Date(),
-					year = date.getFullYear(),
-					month = date.getMonth() + 1,
-					day = date.getDate(),
-					hours = date.getHours(),
-					minutes = date.getMinutes(),
-					seconds = date.getSeconds(),
-					timeStr = `${year}/${month}/${day} ${hours}:${minutes}:${seconds}`
-				this.time = timeStr
-			},1000)
+			var date = new Date(),
+				year = date.getFullYear(),
+				month = date.getMonth() + 1,
+				day = date.getDate(),
+				hours = date.getHours(),
+				minutes = date.getMinutes(),
+				seconds = date.getSeconds()
+				if(String(hours).length == 1){
+					hours = "0" + hours
+				}
+				if(String(minutes).length == 1){
+					minutes = "0" + minutes
+				}
+				if(String(seconds).length == 1){
+					seconds = "0" + seconds
+				}
+			var	timeStr = `${year}/${month}/${day} ${hours}:${minutes}:${seconds}`
+			this.time = timeStr
 		}
 	}
 }
