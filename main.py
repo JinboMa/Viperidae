@@ -29,7 +29,7 @@ class Application(tornado.web.Application):
             (r'/blog/create', Create_Blog),
             (r'/blog/edit', Edit_Blog),
             (r'/blog/list', Get_User_Blog),
-            (r'/blog/(.*)', Blog_Details),
+            (r'/blog', Blog_Details),
 
         ]
         settings = dict(

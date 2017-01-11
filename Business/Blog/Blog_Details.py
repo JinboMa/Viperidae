@@ -14,9 +14,9 @@ class Blog_Details(LoginRequireHandler):
         self.logger = get_logger(self.class_name)
         super(Blog_Details, self).prepare()
 
-    def get(self, blog_id, *args, **kwargs):
+    def get(self, *args, **kwargs):
         try:
-            blog_id = int(blog_id)
+            blog_id = int(self.get_argument('id'))
             blog = Blog().get_blog_by_id(self.datebase(), blog_id)
             if blog is not None:
                 self.logger.info('blog is not None')
