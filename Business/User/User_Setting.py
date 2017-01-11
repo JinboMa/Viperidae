@@ -1,10 +1,10 @@
-import json
-
-from Handler.BaseHandler import BaseHandler
+from Handler.LoginRequireHandler import LoginRequireHandler
+from Log.logger import get_logger
 from Module.User import User
 
 
-class User_Setting(BaseHandler):
+class User_Setting(LoginRequireHandler):
+    class_name = 'User Setting'
     result = {
         'result': None,
         'message': {}
@@ -14,13 +14,8 @@ class User_Setting(BaseHandler):
         return self.application.datebase
 
     def prepare(self):
-        try:
-            user_cookie = self.get_secure_cookie('user').decode().split('-')
-            self.user_id = user_cookie[0]
-        except:
-            self.result['result'] = False
-            self.result['message'] = '尚未登陆'
-            self.finish(json.dumps(self.result))
+        self.logger = get_logger(self.class_name)
+        super(User_Setting, self).prepare()
 
     def post(self, *args, **kwargs):
         try:
@@ -29,21 +24,37 @@ class User_Setting(BaseHandler):
             password = self.get_argument('password')
             email = self.get_argument('email')
             telphone = self.get_argument('telphone')
+            picture = self.get_argument('picture')
             id_number = self.get_argument('id_number')
 
+            self.logger.info(
+                'get info success, name:{}, nickname:{}, password:{}, email:{}, telphone:{}, picture:{}, id_number:{}'.format(
+                    name, nickname, password, email, telphone, picture, id_number))
+
             user = self.datebase().query(User).get(self.user_id)
+            self.logger.info('select database success, user id:{}'.format(self.user_id))
 
             user.name = name
             user.nickname = nickname
             user.password = password
             user.email = email
             user.telphone = telphone
+            user.picture = picture
             user.id_number = id_number
 
-            self.datebase().commit()
+            try:
+                self.datebase().commit()
+                self.logger.warning('commit success')
+            except Exception as e:
+                self.result['result'] = False
+                self.result['message']['error'] = str(e)
+                self.logger.error('commit false, error:{}'.format(e))
+            finally:
+                self.datebase().close()
 
-        except:
+        except Exception as e:
             self.result['result'] = False
             self.result['message']['error'] = '请求参数错误'
+            self.logger.error('get info false, error:{}'.format(e))
 
         self.finish(self.result)

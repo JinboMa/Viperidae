@@ -5,6 +5,7 @@ import tornado.web
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session
 from sqlalchemy.orm import sessionmaker
+from Resources.Picture import Picture
 from Business.User import *
 from Business.Blog import *
 from Business.Event import *
@@ -17,6 +18,8 @@ class Application(tornado.web.Application):
             echo=False)
 
         handlers = [
+
+            (r'/picture', Picture),
 
             (r'/login', Log_In),
             (r'/logout', Log_Out),
