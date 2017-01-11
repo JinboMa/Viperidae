@@ -1,10 +1,8 @@
-import json
-
-from Handler.BaseHandler import BaseHandler
+from Handler.LoginRequireHandler import LoginRequireHandler
 from Module.User import User
 
 
-class User_Setting(BaseHandler):
+class User_Setting(LoginRequireHandler):
     result = {
         'result': None,
         'message': {}
@@ -13,15 +11,6 @@ class User_Setting(BaseHandler):
     def datebase(self):
         return self.application.datebase
 
-    def prepare(self):
-        try:
-            user_cookie = self.get_secure_cookie('user').decode().split('-')
-            self.user_id = user_cookie[0]
-        except:
-            self.result['result'] = False
-            self.result['message'] = '尚未登陆'
-            self.finish(json.dumps(self.result))
-
     def post(self, *args, **kwargs):
         try:
             name = self.get_argument('name')
@@ -29,6 +18,7 @@ class User_Setting(BaseHandler):
             password = self.get_argument('password')
             email = self.get_argument('email')
             telphone = self.get_argument('telphone')
+            picture = self.get_argument('picture')
             id_number = self.get_argument('id_number')
 
             user = self.datebase().query(User).get(self.user_id)
@@ -38,9 +28,16 @@ class User_Setting(BaseHandler):
             user.password = password
             user.email = email
             user.telphone = telphone
+            user.picture = picture
             user.id_number = id_number
 
-            self.datebase().commit()
+            try:
+                self.datebase().commit()
+            except Exception as e:
+                self.result['result'] = False
+                self.result['message']['error'] = str(e)
+            finally:
+                self.datebase().close()
 
         except:
             self.result['result'] = False
