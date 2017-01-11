@@ -1,7 +1,8 @@
 import tornado.web
+from .BaseHandler import BaseHandler
 
 
-class LoginRequireHandler(tornado.web.RequestHandler):
+class LoginRequireHandler(BaseHandler):
     result = {
         'result': None,
         'message': {}

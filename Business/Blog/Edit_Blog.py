@@ -1,12 +1,18 @@
 import datetime
 from Module.Blog import Blog
 from Handler.LoginRequireHandler import LoginRequireHandler
-from Log.logger import write, space
+from Log.logger import get_logger
 
 
 class Edit_Blog(LoginRequireHandler):
+    class_name = 'Edit Blog'
+
     def datebase(self):
         return self.application.datebase
+
+    def prepare(self):
+        self.logger = get_logger(self.class_name)
+        super(LoginRequireHandler, self).prepare()
 
     def post(self, *args, **kwargs):
         try:
@@ -15,22 +21,21 @@ class Edit_Blog(LoginRequireHandler):
             content = self.get_argument('content')
             last_edit_time = datetime.datetime.now()
 
-            write('INFO', '[Edit Blog] blog id:{}, title:{}, content:{}, last_edit_time:{}'.format(id, title, content,
+            self.logger.info('blog id:{}, title:{}, content:{}, last_edit_time:{}'.format(id, title, content,
                                                                                                    last_edit_time))
 
             blog = Blog().edit_blog(self.datebase(), id, self.user_id, title, content, last_edit_time)
 
             if blog is True:
-                write('INFO', '[Edit Blog] edit blog success')
+                self.logger.info('edit blog success')
                 self.result['result'] = True
             else:
-                write('INFO', '[Edit Blog] edit blog false, result:{}'.format(blog))
+                self.logger.info('edit blog false, result:{}'.format(blog))
                 self.result['result'] = False
                 self.result['message']['error'] = blog
         except:
-            write('INFO', '[Edit Blog] edit blog false, result:{}'.format('get parameter error'))
+            self.logger.info('edit blog false, result:{}'.format('get parameter error'))
             self.result['result'] = False
             self.result['message']['error'] = '参数错误'
         finally:
-            space()
             self.finish(self.result)

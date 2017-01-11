@@ -1,12 +1,18 @@
 import datetime
 from Module.Blog import Blog
 from Handler.LoginRequireHandler import LoginRequireHandler
-from Log.logger import write, space
+from Log.logger import get_logger
 
 
 class Create_Blog(LoginRequireHandler):
+    class_name = 'Create Blog'
+
     def datebase(self):
         return self.application.datebase
+
+    def prepare(self):
+        self.logger = get_logger(self.class_name)
+        super(LoginRequireHandler, self).prepare()
 
     def post(self, *args, **kwargs):
         try:
@@ -16,28 +22,25 @@ class Create_Blog(LoginRequireHandler):
             create_time = datetime.datetime.now()
             last_edit_time = datetime.datetime.now()
 
-            write('INFO',
-                  '[Create Blog] title:{}, author:{}, create_time:{}, last_edit_time:{}'.format(title, content,
-                                                                                                create_time,
-                                                                                                last_edit_time))
-            write('INFO', '[Create Blog] content:{}'.format(content))
+            self.logger.info('title:{}, author:{}, create_time:{}, last_edit_time:{}'.format(title, content,
+                                                                                             create_time,
+                                                                                             last_edit_time))
+            self.logger.info('content:{}'.format(content))
 
             blog = Blog(title=title, content=content, author=author, create_time=create_time,
                         last_edit_time=last_edit_time)
 
             if blog.create(self.datebase(), blog):
-                write('INFO', '[Create Blog] add blog success')
+                self.logger.info('add blog success')
                 self.result['result'] = True
             else:
-                write('INFO', '[Create Blog] add blog false')
+                self.logger.info('add blog false, result:{}'.format('数据库操作失败'))
                 self.result['result'] = False
                 self.result['error'] = '数据库操作失败'
         except Exception as e:
-            write('ERROR', e)
-            space()
+            self.logger.error('add blog error, result:{}'.format(e))
             self.result['result'] = False
             self.result['message']['error'] = '参数传递错误'
 
         finally:
-            space()
             self.finish(self.result)
