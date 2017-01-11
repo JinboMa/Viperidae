@@ -1,9 +1,10 @@
 from Handler.BaseHandler import BaseHandler
 from Module.User import User
-from Log.logger import write, space
+from Log.logger import get_logger
 
 
 class Log_In(BaseHandler):
+    class_name = 'Log In'
     result = {
         'result': None,
         'message': {}
@@ -15,13 +16,14 @@ class Log_In(BaseHandler):
     def prepare(self):
         self.result['result'] = None
         self.result['message'] = {}
+        self.logger = get_logger(self.class_name)
 
     def post(self, *args, **kwargs):
         try:
             telphone = self.get_argument('telphone')
             password = self.get_argument('password')
 
-            write('INFO', '[Log_in] telphone:{}, password:{}'.format(telphone, password))
+            self.logger.info('telphone:{}, password:{}'.format(telphone, password))
 
             user = User(telphone=telphone, password=password)
             user = user.log_in(self.datebase, user)
@@ -30,19 +32,18 @@ class Log_In(BaseHandler):
                 if isinstance(user, User):
                     self.set_secure_cookie('user', str(user.id) + '-' + user.password)
                     self.result['result'] = True
-                    write('INFO', '[Log_in] log in success and set cookie success')
+                    self.logger.info('log in success and set cookie success')
                 else:
                     self.result['result'] = False
                     self.result['message']['error'] = user
-                    write('INFO', '[Log_in] log in false, result:{}'.format(user))
+                    self.logger.info('log in false, result:{}'.format(user))
             else:
                 self.result['result'] = False
                 self.result['message']['error'] = '未知错误'
-                write('INFO', '[Log_in] log in false, result:{}'.format('未知错误'))
+                self.logger.info('log in false, result:{}'.format('unknow'))
         except Exception as e:
-            write('INFO', '[Log_in] log in false, result:{}'.format(e))
+            self.logger.error('log in false, result:{}'.format(e))
             self.result['result'] = False
             self.result['message']['error'] = '参数传递错误'
 
-        space()
         self.finish(self.result)

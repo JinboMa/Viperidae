@@ -1,4 +1,5 @@
 import datetime
+import logging
 
 
 def write(level, content):
@@ -15,3 +16,14 @@ def write(level, content):
 def space():
     with open('./Log/log/{}'.format(datetime.date.today()), 'a+') as f:
         f.write('\n')
+
+
+def get_logger(name):
+    handler = logging.handlers.RotatingFileHandler('Log/log/{}'.format(datetime.date.today()), maxBytes=1024 * 1024)
+    formatter = logging.Formatter('[%(levelname)s] [%(asctime)s] %(filename)s - %(funcName)s : %(message)s')
+    handler.setLevel(logging.INFO)
+    handler.setFormatter(formatter)
+
+    logger = logging.getLogger(name)
+    logger.addHandler(handler)
+    return logger
