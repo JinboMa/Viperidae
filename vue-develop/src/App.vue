@@ -1,6 +1,6 @@
 <template lang="pug">
 	#app
-		my-header
+		my-header(:headerIndex="headerIndex")
 		put-top
 		router-view
 </template>
@@ -20,7 +20,7 @@ export default {
 	},
 	data(){
 		return {
-			
+			headerIndex : 1
 		}
 	}
 }
@@ -41,4 +41,19 @@ body
 a
 	text-decoration none
 	color inherit
+::-webkit-scrollbar
+	width 2px
+	height 2px
+	background none
+::-webkit-scrollbar-track
+	border-radius 1px
+	background none
+::-webkit-scrollbar-thumb
+	background #324057
+.hide
+	display none
+.left
+	float left
+.right
+	float right
 </style>
