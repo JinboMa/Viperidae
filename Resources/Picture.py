@@ -16,19 +16,23 @@ class Picture(LoginRequireHandler):
     def post(self, *args, **kwargs):
         try:
             picture = self.get_argument('picture')
-            print(len(picture))
-            miss = 4 - (len(picture) % 4)
-            picture += '=' * miss
-            original_image = base64.b64decode(picture)
+            self.logger.info('get picture success, picture is:{}'.format(picture))
+
+            original_image = base64.b64decode(self.complete_picture(picture))
 
             path = 'Resources/{}'.format(self.user_id)
+
+            self.logger.info('prepare to save picture, path:{}'.format(path))
+
             if not os.path.exists(path):
+                self.logger.info('path is not exist, mkdir:{}'.format(path))
                 os.mkdir(path)
 
             file_name = path + '/{}'.format(self.get_name())
 
             with open(file_name, 'wb+') as f:
                 f.write(original_image)
+                self.logger.info('save picture success, name:{}'.format(file_name))
 
             self.result['result'] = True
             self.result['message']['path'] = file_name
@@ -44,3 +48,13 @@ class Picture(LoginRequireHandler):
         t = datetime.datetime.now()
         return str(t.year) + str(t.month) + str(t.day) + \
                str(t.hour) + str(t.minute) + str(t.second) + str(t.microsecond)
+
+    def complete_picture(self, picture):
+        if (len(picture) % 4) == 0:
+            self.logger.info('picture length is suitable, return original picture')
+            return picture
+        else:
+            miss = 4 - (len(picture) % 4)
+            picture += '=' * miss
+            self.logger.info('picture length is not suitable, complete picture:{}'.format(picture))
+            return picture
