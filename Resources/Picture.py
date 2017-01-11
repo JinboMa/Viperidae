@@ -2,7 +2,6 @@ import datetime
 import os
 from Handler.LoginRequireHandler import LoginRequireHandler
 import base64
-
 from Log.logger import get_logger
 
 
@@ -24,6 +23,7 @@ class Picture(LoginRequireHandler):
 
             self.logger.info('prepare to save picture, path:{}'.format(path))
 
+            # 如果没有这个路径 进行创建操作
             if not os.path.exists(path):
                 self.logger.info('path is not exist, mkdir:{}'.format(path))
                 os.mkdir(path)
@@ -45,11 +45,13 @@ class Picture(LoginRequireHandler):
             self.finish(self.result)
 
     def get_name(self):
+        # 获取图片名称（根据时间，精确到ms）
         t = datetime.datetime.now()
         return str(t.year) + str(t.month) + str(t.day) + \
                str(t.hour) + str(t.minute) + str(t.second) + str(t.microsecond)
 
     def complete_picture(self, picture):
+        # 补全图片（base64格式字符串长度需要是4的倍数，如果不够需用'='补齐）
         if (len(picture) % 4) == 0:
             self.logger.info('picture length is suitable, return original picture')
             return picture
