@@ -12,7 +12,7 @@ class Blog_Details(LoginRequireHandler):
 
     def prepare(self):
         self.logger = get_logger(self.class_name)
-        super(LoginRequireHandler, self).prepare()
+        super(Blog_Details, self).prepare()
 
     def get(self, blog_id, *args, **kwargs):
         try:

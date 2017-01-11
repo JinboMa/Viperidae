@@ -12,7 +12,7 @@ class Edit_Blog(LoginRequireHandler):
 
     def prepare(self):
         self.logger = get_logger(self.class_name)
-        super(LoginRequireHandler, self).prepare()
+        super(Edit_Blog, self).prepare()
 
     def post(self, *args, **kwargs):
         try:
@@ -22,7 +22,7 @@ class Edit_Blog(LoginRequireHandler):
             last_edit_time = datetime.datetime.now()
 
             self.logger.info('blog id:{}, title:{}, content:{}, last_edit_time:{}'.format(id, title, content,
-                                                                                                   last_edit_time))
+                                                                                          last_edit_time))
 
             blog = Blog().edit_blog(self.datebase(), id, self.user_id, title, content, last_edit_time)
 

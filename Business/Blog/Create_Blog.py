@@ -12,7 +12,7 @@ class Create_Blog(LoginRequireHandler):
 
     def prepare(self):
         self.logger = get_logger(self.class_name)
-        super(LoginRequireHandler, self).prepare()
+        super(Create_Blog, self).prepare()
 
     def post(self, *args, **kwargs):
         try:
