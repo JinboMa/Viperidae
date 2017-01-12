@@ -13,7 +13,7 @@ class User(Base):
     id = Column(Integer(), primary_key=True, autoincrement=True)
     name = Column(String(20))  # 真实姓名
     nickname = Column(String(20))  # 昵称
-    password = Column(String(30))  # 密码
+    password = Column(String(50))  # 密码
     email = Column(String(30))  # 邮箱
     telphone = Column(String(20))  # 电话号码
     registration_time = Column(DateTime())  # 注册时间
