@@ -24,26 +24,24 @@ class Registration(BaseHandler):
             telphone = self.get_argument('telphone')
             password = self.get_argument('password')
             nickname = self.get_argument('nickname')
-
             registration_time = datetime.datetime.now()
 
-            self.logger.info('telphone:{}, password:{}, nickname:{}, registration time:{}'.format(telphone, password,
-                                                                                                  nickname,
-                                                                                                  registration_time))
+            self.logger.info('telphone:{}, password:{}, nickname:{}, registration time:{}'
+                             .format(telphone, password, nickname, registration_time))
 
             user = User(telphone=telphone, password=password, nickname=nickname, registration_time=registration_time)
             result = user.registration(self.datebase, user)
 
             if result is True:
-                self.logger.info('registration success')
                 self.result['result'] = True
+                self.logger.info('registration success')
             else:
-                self.logger.info('registration false, result:{}'.format(result))
                 self.result['result'] = False
                 self.result['message']['error'] = result
+                self.logger.info('registration false, result:{}'.format(result))
         except Exception as e:
-            self.logger.error(str(e))
             self.result['result'] = False
             self.result['message']['error'] = '参数错误'
+            self.logger.error(str(e))
 
         self.finish(self.result)

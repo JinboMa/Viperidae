@@ -21,21 +21,21 @@ class Edit_Blog(LoginRequireHandler):
             content = self.get_argument('content')
             last_edit_time = datetime.datetime.now()
 
-            self.logger.info('blog id:{}, title:{}, content:{}, last_edit_time:{}'.format(id, title, content,
-                                                                                          last_edit_time))
+            self.logger.info('blog id:{}, title:{}, content:{}, last_edit_time:{}'
+                             .format(id, title, content, last_edit_time))
 
             blog = Blog().edit_blog(self.datebase(), id, self.user_id, title, content, last_edit_time)
 
             if blog is True:
-                self.logger.info('edit blog success')
                 self.result['result'] = True
+                self.logger.info('edit blog success')
             else:
-                self.logger.info('edit blog false, result:{}'.format(blog))
                 self.result['result'] = False
                 self.result['message']['error'] = blog
+                self.logger.info('edit blog false, result:{}'.format(blog))
         except:
-            self.logger.info('edit blog false, result:{}'.format('get parameter error'))
             self.result['result'] = False
             self.result['message']['error'] = '参数错误'
+            self.logger.info('edit blog false, result:{}'.format('get parameter error'))
         finally:
             self.finish(self.result)

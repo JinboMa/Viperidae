@@ -39,7 +39,7 @@ class User(Base):
         else:
             return '手机号已存在'
 
-    def log_in(self, session, user):
+    def verification(self, session, user):
         flag = session().query(User).filter(User.telphone == user.telphone).first()
         session().close()
         if flag is not None:
@@ -49,6 +49,27 @@ class User(Base):
                 return '密码错误'
         else:
             return '用户不存在'
+
+    def setting(self, session, id, info):
+        if isinstance(info, dict):
+            user = session().query(User).get(id)
+            user.name = info['name']
+            user.nickname = info['nickname']
+            user.password = info['password']
+            user.email = info['email']
+            user.telphone = info['telphone']
+            user.picture = info['picture']
+            user.id_number = info['id_number']
+            try:
+                session().commit()
+                return True
+            except Exception as e:
+                self.logger.error('commit false, error:{}'.format(e))
+                return False
+            finally:
+                self.datebase().close()
+        else:
+            return False
 
     def get_user_by_id(self, session, user_id):
         user = session().query(User).get(user_id)

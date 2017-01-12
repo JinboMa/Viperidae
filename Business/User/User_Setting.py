@@ -5,10 +5,6 @@ from Module.User import User
 
 class User_Setting(LoginRequireHandler):
     class_name = 'User Setting'
-    result = {
-        'result': None,
-        'message': {}
-    }
 
     def datebase(self):
         return self.application.datebase
@@ -19,38 +15,29 @@ class User_Setting(LoginRequireHandler):
 
     def post(self, *args, **kwargs):
         try:
-            name = self.get_argument('name')
-            nickname = self.get_argument('nickname')
-            password = self.get_argument('password')
-            email = self.get_argument('email')
-            telphone = self.get_argument('telphone')
-            picture = self.get_argument('picture')
-            id_number = self.get_argument('id_number')
+            info = {
+                'name': self.get_argument('name'),
+                'nickname': self.get_argument('nickname'),
+                'password': self.get_argument('password'),
+                'email': self.get_argument('email'),
+                'telphone': self.get_argument('telphone'),
+                'picture': self.get_argument('picture'),
+                'id_number': self.get_argument('id_number')
+            }
 
             self.logger.info(
-                'get info success, name:{}, nickname:{}, password:{}, email:{}, telphone:{}, picture:{}, id_number:{}'.format(
-                    name, nickname, password, email, telphone, picture, id_number))
+                'get info success, name:{}, nickname:{}, password:{}, email:{}, telphone:{}, picture:{}, id_number:{}'
+                    .format(
+                    info['name'], info['nickname'], info['password'], info['email'],
+                    info['telphone'], info['picture'], info['id_number']
+                )
+            )
 
-            user = self.datebase().query(User).get(self.user_id)
-            self.logger.info('select database success, user id:{}'.format(self.user_id))
-
-            user.name = name
-            user.nickname = nickname
-            user.password = password
-            user.email = email
-            user.telphone = telphone
-            user.picture = picture
-            user.id_number = id_number
-
-            try:
-                self.datebase().commit()
-                self.logger.warning('commit success')
-            except Exception as e:
+            if User().setting(self.datebase(), self.user_id, info) is True:
+                self.result['result'] = True
+            else:
                 self.result['result'] = False
-                self.result['message']['error'] = str(e)
-                self.logger.error('commit false, error:{}'.format(e))
-            finally:
-                self.datebase().close()
+                self.result['message']['error'] = '修改失败'
 
         except Exception as e:
             self.result['result'] = False
