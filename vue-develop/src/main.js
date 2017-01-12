@@ -13,6 +13,8 @@ Vue.use(ElementUI)
 
 //引入highlight css
 import './assets/highlight.min.css'
+//md5
+import md5 from 'blueimp-md5'
 
 //路由页面引入
 import Index from './pages/Index'
@@ -25,7 +27,7 @@ import VueResource from 'vue-resource'
 Vue.use(VueResource)
 Vue.http.options.emulateJSON = true
 Vue.http.options.emulateHTTP = true
-Vue.http.options.credentials = true
+// Vue.http.options.credentials = true
 Vue.http.interceptors.push((request, next) => {
 		// ...
 		// 请求发送前的处理逻辑
@@ -42,7 +44,7 @@ Vue.http.interceptors.push((request, next) => {
 	})
 
 //全局变量地址
-Vue.prototype.URL = "http://23.105.208.8/:8088/"
+Vue.prototype.URL = "http://localhost:8088/"
 //this.ajax(this.setAjax("login",this.formData,this.success,this.fail))
 //全局接口配置
 Vue.prototype.ajaxConfig = {
@@ -52,7 +54,8 @@ Vue.prototype.ajaxConfig = {
 				successMsg : "登录成功",
 				failMsg : "登录失败",
 				successAlert : true,
-				failAlert : true
+				failAlert : true,
+				md5 : true
 	},
 	registration : {
 				method : "POST",
@@ -60,7 +63,8 @@ Vue.prototype.ajaxConfig = {
 				successMsg : "注册成功",
 				failMsg : "注册失败",
 				successAlert : true,
-				failAlert : true
+				failAlert : true,
+				md5 : true
 	},
 	userSetting : {
 				method : "POST",
@@ -135,6 +139,10 @@ Vue.prototype.ajax = function(data){
 		url : this.URL+data.url,
 		method : data.method,
 		timeout: 5000
+	}
+	if(data.md5){
+		data.formData.password = md5(data.formData.password)
+		console.log(data.formData.password)
 	}
 	if(data.method == "GET"){
 		postData.params = data.formData
