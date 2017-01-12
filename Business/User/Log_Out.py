@@ -9,7 +9,7 @@ class Log_Out(LoginRequireHandler):
         return self.application.datebase
 
     def prepare(self):
-        self.logger = get_logger(self.class_name)
+        self.logger = get_logger(self.class_name, self.sign, 'User')
         super(Log_Out, self).prepare()
 
     def get(self, *args, **kwargs):

@@ -5,11 +5,6 @@ from Module.Event import Event
 
 
 class Create_Event(LoginRequireHandler):
-    result = {
-        'result': None,
-        'message': {}
-    }
-
     def datebase(self):
         return self.application.datebase
 

@@ -16,7 +16,31 @@ class Log_In(BaseHandler):
     def prepare(self):
         self.result['result'] = None
         self.result['message'] = {}
-        self.logger = get_logger(self.class_name)
+        self.logger = get_logger(self.class_name, self.sign, 'User')
+
+    def get(self, *args, **kwargs):
+        try:
+            user_cookie = self.get_secure_cookie('user').decode().split('-')
+            user = User(id=user_cookie[0], password=user_cookie[1])
+            result = user.verification_by_id(self.datebase(), user)
+            if result is not False:
+                if isinstance(result, User):
+                    self.result['result'] = True
+                    self.result['message'][result.id] = {
+                        'nickname': result.nickname,
+                        'picture': result.picture
+                    }
+                else:
+                    self.clear_cookie('user')
+                    self.result['result'] = False
+            else:
+                self.clear_cookie('user')
+                self.result['result'] = False
+        except Exception as e:
+            self.result['result'] = False
+            self.result['message']['error'] = '尚未登陆'
+
+        self.finish(self.result)
 
     def post(self, *args, **kwargs):
         try:
@@ -26,10 +50,11 @@ class Log_In(BaseHandler):
             self.logger.info('telphone:{}, password:{}'.format(telphone, password))
 
             user = User(telphone=telphone, password=password)
-            user = user.log_in(self.datebase, user)
+            user = user.verification_by_phone(self.datebase, user)
 
             if user is not False:
                 if isinstance(user, User):
+                    # 返回cookie
                     self.set_secure_cookie('user', str(user.id) + '-' + user.password)
                     self.result['result'] = True
                     self.logger.info('log in success and set cookie success')
@@ -42,8 +67,8 @@ class Log_In(BaseHandler):
                 self.result['message']['error'] = '未知错误'
                 self.logger.info('log in false, result:{}'.format('unknow'))
         except Exception as e:
-            self.logger.error('log in false, result:{}'.format(e))
             self.result['result'] = False
             self.result['message']['error'] = '参数传递错误'
+            self.logger.error('log in false, result:{}'.format(e))
 
         self.finish(self.result)
