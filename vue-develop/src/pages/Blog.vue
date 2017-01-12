@@ -1,6 +1,6 @@
 <template lang="pug">
 .blog(:style="{height:blogH}" @click="hide = true" v-loading="loading" element-loading-text="正在提交,请稍等")
-	textarea(v-model="formData.content")
+	textarea(v-model="formData.content" spellcheck="false")
 	.html(v-html="markedHtml")
 	.markTit(:class="{hide:hide}") Markdown
 	.htmlTit(:class="{hide:hide}") HTML

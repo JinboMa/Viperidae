@@ -18,7 +18,7 @@
 			el-menu-item(index="5") 设置
 			el-menu-item.time(index="0" style="float:right") {{time}}
 			el-menu-item.time(index="-1" style="float:right")
-				router-link(to="/Login") 登录
+				router-link(to="/Login") 登录/注册
 </template>
 
 <script>
