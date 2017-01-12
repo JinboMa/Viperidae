@@ -18,6 +18,30 @@ class Log_In(BaseHandler):
         self.result['message'] = {}
         self.logger = get_logger(self.class_name, 'User')
 
+    def get(self, *args, **kwargs):
+        try:
+            user_cookie = self.get_secure_cookie('user').decode().split('-')
+            user = User(id=user_cookie[0], password=user_cookie[1])
+            result = user.verification_by_id(self.datebase(), user)
+            if result is not False:
+                if isinstance(result, User):
+                    self.result['result'] = True
+                    self.result['message'][result.id] = {
+                        'nickname': result.nickname,
+                        'picture': result.picture
+                    }
+                else:
+                    self.clear_cookie('user')
+                    self.result['result'] = False
+            else:
+                self.clear_cookie('user')
+                self.result['result'] = False
+        except Exception as e:
+            self.result['result'] = False
+            self.result['message']['error'] = '尚未登陆'
+
+        self.finish(self.result)
+
     def post(self, *args, **kwargs):
         try:
             telphone = self.get_argument('telphone')
@@ -26,7 +50,7 @@ class Log_In(BaseHandler):
             self.logger.info('telphone:{}, password:{}'.format(telphone, password))
 
             user = User(telphone=telphone, password=password)
-            user = user.verification(self.datebase, user)
+            user = user.verification_by_phone(self.datebase, user)
 
             if user is not False:
                 if isinstance(user, User):

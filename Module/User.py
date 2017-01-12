@@ -39,8 +39,19 @@ class User(Base):
         else:
             return '手机号已存在'
 
-    def verification(self, session, user):
+    def verification_by_phone(self, session, user):
         flag = session().query(User).filter(User.telphone == user.telphone).first()
+        session().close()
+        if flag is not None:
+            if flag.password == user.password:
+                return flag
+            else:
+                return '密码错误'
+        else:
+            return '用户不存在'
+
+    def verification_by_id(self, session, user):
+        flag = session().query(User).get(user.id)
         session().close()
         if flag is not None:
             if flag.password == user.password:
