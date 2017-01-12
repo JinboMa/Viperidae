@@ -16,7 +16,7 @@ class Log_In(BaseHandler):
     def prepare(self):
         self.result['result'] = None
         self.result['message'] = {}
-        self.logger = get_logger(self.class_name)
+        self.logger = get_logger(self.class_name, 'User')
 
     def post(self, *args, **kwargs):
         try:

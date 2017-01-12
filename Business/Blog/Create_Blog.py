@@ -11,7 +11,7 @@ class Create_Blog(LoginRequireHandler):
         return self.application.datebase
 
     def prepare(self):
-        self.logger = get_logger(self.class_name)
+        self.logger = get_logger(self.class_name, 'Blog')
         super(Create_Blog, self).prepare()
 
     def post(self, *args, **kwargs):

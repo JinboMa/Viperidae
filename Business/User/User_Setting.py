@@ -14,7 +14,7 @@ class User_Setting(LoginRequireHandler):
         return self.application.datebase
 
     def prepare(self):
-        self.logger = get_logger(self.class_name)
+        self.logger = get_logger(self.class_name, 'User')
         super(User_Setting, self).prepare()
 
     def post(self, *args, **kwargs):

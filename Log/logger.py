@@ -18,8 +18,9 @@ def space():
         f.write('\n')
 
 
-def get_logger(name):
-    handler = logging.handlers.RotatingFileHandler('Log/log/{}'.format(datetime.date.today()), maxBytes=1024 * 1024)
+def get_logger(name, module='Other'):
+    handler = logging.handlers.RotatingFileHandler('Log/log/{}-{}'.format(datetime.date.today(), module),
+                                                   maxBytes=1024 * 1024)
     formatter = logging.Formatter('[%(levelname)s] [%(asctime)s] %(filename)s - %(funcName)s : %(message)s')
     handler.setLevel(logging.INFO)
     handler.setFormatter(formatter)
