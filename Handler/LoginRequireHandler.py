@@ -1,4 +1,4 @@
-import tornado.web
+from Log.Sign import get_sign
 from .BaseHandler import BaseHandler
 
 
@@ -7,6 +7,7 @@ class LoginRequireHandler(BaseHandler):
         'result': None,
         'message': {}
     }
+    sign = None
 
     def prepare(self):
         self.result['result'] = None

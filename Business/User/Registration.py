@@ -17,7 +17,7 @@ class Registration(BaseHandler):
     def prepare(self):
         self.result['result'] = None
         self.result['message'] = {}
-        self.logger = get_logger(self.class_name, 'User')
+        self.logger = get_logger(self.class_name, self.sign, 'User')
 
     def post(self, *args, **kwargs):
         try:
