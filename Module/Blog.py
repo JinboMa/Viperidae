@@ -25,6 +25,7 @@ class Blog(Base):
             session.commit()
             return True
         except Exception as e:
+            session.rollback()
             write('ERROR', '[Blog] error:{}'.format(e))
             space()
             return False
@@ -58,6 +59,7 @@ class Blog(Base):
                     session().commit()
                     return True
                 except Exception as e:
+                    session.rollback()
                     print(str(e))
                     return '数据库操作失败'
                 finally:

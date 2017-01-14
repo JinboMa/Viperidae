@@ -29,6 +29,7 @@ class User(Base):
                     session().commit()
                     return True
                 except Exception as e:
+                    session().rollback()
                     write('ERROR', e)
                     space()
                     return '数据库执行错误'
@@ -75,6 +76,7 @@ class User(Base):
                 session().commit()
                 return True
             except Exception as e:
+                session().rollback()
                 self.logger.error('commit false, error:{}'.format(e))
                 return False
             finally:

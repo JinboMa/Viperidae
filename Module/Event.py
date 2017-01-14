@@ -36,6 +36,7 @@ class Event(Base):
             session.commit()
             return True
         except Exception as e:
+            session.rollback()
             write('ERROR', e)
             space()
             return False

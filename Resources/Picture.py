@@ -9,7 +9,7 @@ class Picture(LoginRequireHandler):
     class_name = 'Picture'
 
     def prepare(self):
-        self.logger = get_logger(self.class_name)
+        self.logger = get_logger(self.class_name, self.sign)
         super(Picture, self).prepare()
 
     def post(self, *args, **kwargs):
