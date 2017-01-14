@@ -19,12 +19,16 @@ class Application(tornado.web.Application):
 
         handlers = [
 
+            # --------------Tool-------------- #
             (r'/picture', Picture),
+            # --------------Tool-------------- #
 
+            # --------------User-------------- #
             (r'/login', Log_In),
             (r'/logout', Log_Out),
             (r'/registration', Registration),
             (r'/user/setting', User_Setting),
+            # --------------User-------------- #
 
             (r'/event/create', Create_Event),
             (r'/event/get', Get_Event),
