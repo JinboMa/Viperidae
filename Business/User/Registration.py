@@ -38,7 +38,7 @@ class Registration(BaseHandler):
             else:
                 self.result['result'] = False
                 self.result['message']['error'] = result
-                self.logger.info('registration false, result:{}'.format(result))
+                self.logger.error('registration false, result:{}'.format(result))
         except Exception as e:
             self.result['result'] = False
             self.result['message']['error'] = '参数错误'

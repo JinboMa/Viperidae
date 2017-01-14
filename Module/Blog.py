@@ -3,7 +3,6 @@ from sqlalchemy import ForeignKey
 from sqlalchemy import String, Integer, DateTime
 from sqlalchemy.ext.declarative import declarative_base
 from Module.User import User
-from Log.logger import write, space
 
 Base = declarative_base()
 
@@ -26,9 +25,7 @@ class Blog(Base):
             return True
         except Exception as e:
             session.rollback()
-            write('ERROR', '[Blog] error:{}'.format(e))
-            space()
-            return False
+            return str(e)
         finally:
             session().close()
 

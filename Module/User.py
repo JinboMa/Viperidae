@@ -2,7 +2,6 @@ from sqlalchemy import Column
 from sqlalchemy import DateTime
 from sqlalchemy import String, Integer
 from sqlalchemy.ext.declarative import declarative_base
-from Log.logger import write, space
 
 Base = declarative_base()
 
@@ -30,9 +29,7 @@ class User(Base):
                     return True
                 except Exception as e:
                     session().rollback()
-                    write('ERROR', e)
-                    space()
-                    return '数据库执行错误'
+                    return str(e)
                 finally:
                     session().close()
             else:
