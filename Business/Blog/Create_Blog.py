@@ -29,13 +29,16 @@ class Create_Blog(LoginRequireHandler):
             blog = Blog(title=title, content=content, author=author,
                         create_time=create_time, last_edit_time=last_edit_time)
 
-            if blog.create(self.datebase(), blog):
+            result = blog.create(self.datebase(), blog)
+
+            if result is True:
                 self.result['result'] = True
                 self.logger.info('add blog success')
             else:
                 self.result['result'] = False
                 self.result['error'] = '数据库操作失败'
                 self.logger.info('add blog false, result:{}'.format('数据库操作失败'))
+                self.logger.error(result)
         except Exception as e:
             self.result['result'] = False
             self.result['message']['error'] = '参数传递错误'
