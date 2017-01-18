@@ -11,9 +11,6 @@ class Registration(BaseHandler):
         'message': {}
     }
 
-    def datebase(self):
-        return self.application.datebase
-
     def prepare(self):
         self.result['result'] = None
         self.result['message'] = {}

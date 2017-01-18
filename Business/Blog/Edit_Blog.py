@@ -7,9 +7,6 @@ from Log.logger import get_logger
 class Edit_Blog(LoginRequireHandler):
     class_name = 'Edit Blog'
 
-    def datebase(self):
-        return self.application.datebase
-
     def prepare(self):
         self.logger = get_logger(self.class_name, self.sign, 'Blog')
         super(Edit_Blog, self).prepare()

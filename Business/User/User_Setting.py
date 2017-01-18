@@ -6,9 +6,6 @@ from Module.User import User
 class User_Setting(LoginRequireHandler):
     class_name = 'User Setting'
 
-    def datebase(self):
-        return self.application.datebase
-
     def prepare(self):
         self.logger = get_logger(self.class_name, self.sign, 'User')
         super(User_Setting, self).prepare()

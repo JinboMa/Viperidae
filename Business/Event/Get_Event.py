@@ -3,9 +3,6 @@ from Module.Event import Event
 
 
 class Get_Event(LoginRequireHandler):
-    def datebase(self):
-        return self.application.datebase
-
     def post(self, *args, **kwargs):
         events = Event().get_event_by_id(self.datebase(), self.user_id)
         if events is not None:
