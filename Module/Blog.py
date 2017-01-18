@@ -19,13 +19,14 @@ class Blog(Base):
     last_edit_time = Column(DateTime())  # 最后编辑时间
 
     def create(self, session, blog):
-        session.add(blog)
+        session().add(blog)
         try:
-            session.commit()
-            return True
+            session().commit()
         except Exception as e:
-            session.rollback()
+            session().rollback()
             return str(e)
+        else:
+            return True
         finally:
             session().close()
 
@@ -56,7 +57,7 @@ class Blog(Base):
                     session().commit()
                     return True
                 except Exception as e:
-                    session.rollback()
+                    session().rollback()
                     print(str(e))
                     return '数据库操作失败'
                 finally:

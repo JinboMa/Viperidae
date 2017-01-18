@@ -31,14 +31,15 @@ class Event(Base):
             return events
 
     def create_event(self, session, event):
-        session.add(event)
+        session().add(event)
         try:
-            session.commit()
-            return True
+            session().commit()
         except Exception as e:
-            session.rollback()
+            session().rollback()
             write('ERROR', e)
             space()
             return False
+        else:
+            return True
         finally:
             session().close()
