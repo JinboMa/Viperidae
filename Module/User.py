@@ -26,10 +26,11 @@ class User(Base):
                 session().add(user)
                 try:
                     session().commit()
-                    return True
                 except Exception as e:
                     session().rollback()
                     return str(e)
+                else:
+                    return True
                 finally:
                     session().close()
             else:
@@ -71,11 +72,12 @@ class User(Base):
             user.id_number = info['id_number']
             try:
                 session().commit()
-                return True
             except Exception as e:
                 session().rollback()
                 self.logger.error('commit false, error:{}'.format(e))
                 return False
+            else:
+                return True
             finally:
                 self.datebase().close()
         else:
