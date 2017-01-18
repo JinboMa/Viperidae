@@ -7,6 +7,9 @@ class BaseHandler(tornado.web.RequestHandler):
         self.sign = get_sign()
         super(BaseHandler, self).__init__(*args, **kwargs)
 
+    def datebase(self):
+        return self.application.datebase
+
     def write(self, chunk):
         self.set_header('Access-Control-Allow-Origin', 'http://23.105.208.8')
         self.add_header('Access-Control-Allow-Credentials', 'true')

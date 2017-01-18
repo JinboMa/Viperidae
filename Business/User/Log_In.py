@@ -10,9 +10,6 @@ class Log_In(BaseHandler):
         'message': {}
     }
 
-    def datebase(self):
-        return self.application.datebase
-
     def prepare(self):
         self.result['result'] = None
         self.result['message'] = {}

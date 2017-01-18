@@ -5,9 +5,6 @@ from Module.Event import Event
 
 
 class Create_Event(LoginRequireHandler):
-    def datebase(self):
-        return self.application.datebase
-
     def post(self, *args, **kwargs):
 
         try:

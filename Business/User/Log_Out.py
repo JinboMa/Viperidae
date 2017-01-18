@@ -5,9 +5,6 @@ from Log.logger import get_logger
 class Log_Out(LoginRequireHandler):
     class_name = 'Log Out'
 
-    def datebase(self):
-        return self.application.datebase
-
     def prepare(self):
         self.logger = get_logger(self.class_name, self.sign, 'User')
         super(Log_Out, self).prepare()

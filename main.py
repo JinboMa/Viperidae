@@ -39,9 +39,10 @@ class Application(tornado.web.Application):
             (r'/blog', Blog_Details),
 
         ]
+
         settings = dict(
-            debug=True,
-            autoreload=True,
+            debug=False,
+            autoreload=False,
             cookie_secret='f72c2505124026952ad55e54664493b1'
         )
         tornado.web.Application.__init__(self, handlers, **settings)
@@ -52,9 +53,11 @@ class Application(tornado.web.Application):
 
 
 def main():
-    tornado.options.parse_command_line()
-    Application().listen(8088)
-    tornado.ioloop.IOLoop.instance().start()
+    application = Application()
+    server = tornado.httpserver.HTTPServer(application)
+    server.bind(8088)
+    server.start(0)  # forks one process per cpu
+    tornado.ioloop.IOLoop.current().start()
 
 
 if __name__ == "__main__":

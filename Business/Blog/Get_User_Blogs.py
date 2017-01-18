@@ -4,9 +4,6 @@ from Module.User import User
 
 
 class Get_User_Blog(LoginRequireHandler):
-    def datebase(self):
-        return self.application.datebase
-
     def get(self, *args, **kwargs):
         blogs = Blog().get_blogs_by_author(self.datebase(), self.user_id)
 
