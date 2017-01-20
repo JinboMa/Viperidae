@@ -79,7 +79,7 @@ class User(Base):
             else:
                 return True
             finally:
-                self.datebase().close()
+                self.session().close()
         else:
             return False
 
