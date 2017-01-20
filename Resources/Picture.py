@@ -54,9 +54,8 @@ class Picture(LoginRequireHandler):
         # 补全图片（base64格式字符串长度需要是4的倍数，如果不够需用'='补齐）
         if (len(picture) % 4) == 0:
             self.logger.info('picture length is suitable, return original picture')
-            return picture
         else:
             miss = 4 - (len(picture) % 4)
             picture += '=' * miss
             self.logger.info('picture length is not suitable, complete picture:{}'.format(picture))
-            return picture
+        return picture

@@ -25,6 +25,7 @@ class Event(Base):
     def get_event_by_id(self, session, user_id):
         events = session().query(Event.id, Event.event_name, Event.remarks, Event.priority).filter(
             Event.belong == user_id).all()
+        session().close()
         if len(events) == 0:
             return None
         else:
