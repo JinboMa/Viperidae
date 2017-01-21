@@ -38,12 +38,16 @@ class Blog(Base):
         else:
             return None
 
-    def get_blogs_by_author(self, session, user_id):
-        blogs = session().query(Blog).filter(Blog.author == user_id).all()
+    def get_blogs_by_author(self, session, user_id, start_id, number):
+
+        blogs = session().query(Blog).filter(Blog.author == user_id).filter(Blog.id >= start_id).order_by(
+            'last_edit_time')[0:int(number)]
         session().close()
         if len(blogs) != 0:
+            print('有blog')
             return blogs
         else:
+            print('没有blog')
             return None
 
     def edit_blog(self, session, id, user_id, title, content, last_edit_time):
