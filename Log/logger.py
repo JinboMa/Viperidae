@@ -1,5 +1,7 @@
 import datetime
 import logging
+import os
+from Configuration import LOG_PATH
 
 
 def write(level, content):
@@ -19,8 +21,14 @@ def space():
 
 
 def get_logger(name, sign, module='Other'):
-    handler = logging.handlers.RotatingFileHandler('Log/log/{}-{}'.format(datetime.date.today(), module),
-                                                   maxBytes=1024 * 1024)
+    print('[LOGER] name:{}, sign:{}, module:{}'.format(name,sign,module))
+    log_name = LOG_PATH + '{}-{}'.format(datetime.date.today(), module)
+    try:
+        handler = logging.handlers.RotatingFileHandler(log_name, maxBytes=1024 * 1024)
+    except FileNotFoundError:
+        os.mkdir('Log/log/')
+        handler = logging.handlers.RotatingFileHandler(log_name, maxBytes=1024 * 1024)
+
     formatter = logging.Formatter(
         '[%(levelname)s] [{}] [%(asctime)s] %(filename)s - %(funcName)s : %(message)s'.format(sign))
     handler.setLevel(logging.INFO)

@@ -5,10 +5,20 @@ from Module.User import User
 
 class Get_User_Blog(LoginRequireHandler):
     def get(self, *args, **kwargs):
-        blogs = Blog().get_blogs_by_author(self.datebase(), self.user_id)
 
-        self.result['result'] = True
+        start_id = 0
+        number = 10
+
+        try:
+            number = self.get_argument('number')
+            start_id = self.get_argument('id')
+        except:
+            pass
+
+        blogs = Blog().get_blogs_by_author(self.datebase(), self.user_id, start_id, number)
+
         if blogs is not None:
+            self.result['result'] = True
             self.result['message'] = {
                 blog.id:
                     {
@@ -16,7 +26,10 @@ class Get_User_Blog(LoginRequireHandler):
                         'author': User().get_user_by_id(self.datebase(), blog.author).nickname
                     } for blog in blogs
                 }
-        else:
-            self.result['message'] = {}
+        elif blogs is None:
+            self.result['result'] = False
+            self.result['message'] = {
+                'error': 'No more blog'
+            }
 
         self.finish(self.result)

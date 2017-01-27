@@ -16,8 +16,14 @@ class Log_In(BaseHandler):
         self.logger = get_logger(self.class_name, self.sign, 'User')
 
     def get(self, *args, **kwargs):
+        user_cookie = None
         try:
             user_cookie = self.get_secure_cookie('user').decode().split('-')
+        except Exception as e:
+            self.result['result'] = False
+            self.result['message']['error'] = '尚未登陆'
+
+        if user_cookie is not None:
             user = User(id=user_cookie[0], password=user_cookie[1])
             result = user.verification_by_id(self.datebase(), user)
             if result is not False:
@@ -33,39 +39,35 @@ class Log_In(BaseHandler):
             else:
                 self.clear_cookie('user')
                 self.result['result'] = False
-        except Exception as e:
+        else:
             self.result['result'] = False
-            self.result['message']['error'] = '尚未登陆'
+            self.result['message'] = '尚未登陆'
 
         self.finish(self.result)
 
     def post(self, *args, **kwargs):
-        try:
-            telphone = self.get_argument('telphone')
-            password = self.get_argument('password')
 
-            self.logger.info('telphone:{}, password:{}'.format(telphone, password))
+        telphone = self.get_argument('telphone')
+        password = self.get_argument('password')
 
-            user = User(telphone=telphone, password=password)
-            user = user.verification_by_phone(self.datebase, user)
+        self.logger.info('telphone:{}, password:{}'.format(telphone, password))
 
-            if user is not False:
-                if isinstance(user, User):
-                    # 返回cookie
-                    self.set_secure_cookie('user', str(user.id) + '-' + user.password)
-                    self.result['result'] = True
-                    self.logger.info('log in success and set cookie success')
-                else:
-                    self.result['result'] = False
-                    self.result['message']['error'] = user
-                    self.logger.info('log in false, result:{}'.format(user))
+        user = User(telphone=telphone, password=password)
+        user = user.verification_by_phone(self.datebase, user)
+
+        if user is not False:
+            if isinstance(user, User):
+                # 返回cookie
+                self.set_secure_cookie('user', str(user.id) + '-' + user.password)
+                self.result['result'] = True
+                self.logger.info('log in success and set cookie success')
             else:
                 self.result['result'] = False
-                self.result['message']['error'] = '未知错误'
-                self.logger.info('log in false, result:{}'.format('unknow'))
-        except Exception as e:
+                self.result['message']['error'] = user
+                self.logger.info('log in false, result:{}'.format(user))
+        else:
             self.result['result'] = False
-            self.result['message']['error'] = '参数传递错误'
-            self.logger.error('log in false, result:{}'.format(e))
+            self.result['message']['error'] = '未知错误'
+            self.logger.info('log in false, result:{}'.format('unknow'))
 
         self.finish(self.result)
