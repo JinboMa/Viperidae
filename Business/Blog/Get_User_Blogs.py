@@ -15,13 +15,10 @@ class Get_User_Blog(LoginRequireHandler):
         except:
             pass
 
-        print('start id : {}'.format(start_id))
-        print('number : {}'.format(number))
-
         blogs = Blog().get_blogs_by_author(self.datebase(), self.user_id, start_id, number)
 
-        self.result['result'] = True
         if blogs is not None:
+            self.result['result'] = True
             self.result['message'] = {
                 blog.id:
                     {
@@ -29,7 +26,10 @@ class Get_User_Blog(LoginRequireHandler):
                         'author': User().get_user_by_id(self.datebase(), blog.author).nickname
                     } for blog in blogs
                 }
-        else:
-            self.result['message'] = {}
+        elif blogs is None:
+            self.result['result'] = False
+            self.result['message'] = {
+                'error': 'No more blog'
+            }
 
         self.finish(self.result)

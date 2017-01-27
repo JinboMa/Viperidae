@@ -17,28 +17,24 @@ class Registration(BaseHandler):
         self.logger = get_logger(self.class_name, self.sign, 'User')
 
     def post(self, *args, **kwargs):
-        try:
-            telphone = self.get_argument('telphone')
-            password = self.get_argument('password')
-            nickname = self.get_argument('nickname')
-            registration_time = datetime.datetime.now()
 
-            self.logger.info('telphone:{}, password:{}, nickname:{}, registration time:{}'
-                             .format(telphone, password, nickname, registration_time))
+        telphone = self.get_argument('telphone')
+        password = self.get_argument('password')
+        nickname = self.get_argument('nickname')
+        registration_time = datetime.datetime.now()
 
-            user = User(telphone=telphone, password=password, nickname=nickname, registration_time=registration_time)
-            result = user.registration(self.datebase, user)
+        self.logger.info('telphone:{}, password:{}, nickname:{}, registration time:{}'
+                         .format(telphone, password, nickname, registration_time))
 
-            if result is True:
-                self.result['result'] = True
-                self.logger.info('registration success')
-            else:
-                self.result['result'] = False
-                self.result['message']['error'] = result
-                self.logger.error('registration false, result:{}'.format(result))
-        except Exception as e:
+        user = User(telphone=telphone, password=password, nickname=nickname, registration_time=registration_time)
+        result = user.registration(self.datebase, user)
+
+        if result is True:
+            self.result['result'] = True
+            self.logger.info('registration success')
+        else:
             self.result['result'] = False
-            self.result['message']['error'] = '参数错误'
-            self.logger.error(str(e))
+            self.result['message']['error'] = result
+            self.logger.error('registration false, result:{}'.format(result))
 
         self.finish(self.result)

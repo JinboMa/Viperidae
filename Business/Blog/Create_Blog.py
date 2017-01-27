@@ -19,12 +19,19 @@ class Create_Blog(LoginRequireHandler):
         create_time = datetime.datetime.now()
         last_edit_time = datetime.datetime.now()
 
-        self.logger.info('title:{}, author:{}, create_time:{}, last_edit_time:{}'
-                         .format(title, content, create_time, last_edit_time))
+        self.logger.info(
+            'title:{}, author:{}, create_time:{}, last_edit_time:{}'
+                .format(title, content, create_time, last_edit_time)
+        )
         self.logger.info('content:{}'.format(content))
 
-        blog = Blog(title=title, content=content, author=author,
-                    create_time=create_time, last_edit_time=last_edit_time)
+        blog = Blog(
+            title=title,
+            content=content,
+            author=author,
+            create_time=create_time,
+            last_edit_time=last_edit_time
+        )
 
         result = blog.create(self.datebase(), blog)
 

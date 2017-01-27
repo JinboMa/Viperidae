@@ -1,5 +1,5 @@
 import tornado.web
-from Log.Sign import get_sign
+from Tool.Sign import get_sign
 
 
 class BaseHandler(tornado.web.RequestHandler):
@@ -9,6 +9,7 @@ class BaseHandler(tornado.web.RequestHandler):
 
     def datebase(self):
         return self.application.datebase
+
 
     def write(self, chunk):
         self.set_header('Access-Control-Allow-Origin', 'http://23.105.208.8')

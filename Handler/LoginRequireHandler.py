@@ -1,4 +1,4 @@
-from Log.Sign import get_sign
+from Tool.Sign import get_sign
 from .BaseHandler import BaseHandler
 
 
