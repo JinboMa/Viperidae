@@ -24,7 +24,9 @@ class Blog_List(LoginRequireHandler):
                     {
                         'title': blog.title,
                         'author': User().get_user_by_id(self.datebase(), blog.author).nickname,
-                        'description': blog.description
+                        'description': blog.description,
+                        'rate': blog.rate,
+                        'create_time': blog.create_time
                     } for blog in blogs
                 }
         elif blogs is None:

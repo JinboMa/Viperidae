@@ -1,6 +1,6 @@
 from sqlalchemy import Column
 from sqlalchemy import ForeignKey
-from sqlalchemy import String, Integer, DateTime
+from sqlalchemy import String, Integer, DateTime, Float
 from sqlalchemy.ext.declarative import declarative_base
 from Module.User import User
 
@@ -12,13 +12,13 @@ class Blog(Base):
 
     id = Column(Integer(), primary_key=True, autoincrement=True)  # 主键
     title = Column(String(20))  # 标题
-    tags = Column(String(200))  # 标签
     content = Column(String(20000))  # 内容
     description = Column(String(50))  # 说明
     author = Column(Integer(), ForeignKey(User.id))  # 所属
     create_time = Column(DateTime())  # 创建时间
     release_time = Column(DateTime())  # 发布时间
     last_edit_time = Column(DateTime())  # 最后编辑时间
+    rate = Column(Float())
 
     def create(self, session, blog):
         session().add(blog)
@@ -46,10 +46,8 @@ class Blog(Base):
             'last_edit_time')[0:int(number)]
         session().close()
         if len(blogs) != 0:
-            print('有blog')
             return blogs
         else:
-            print('没有blog')
             return None
 
     def edit_blog(self, session, id, user_id, title, content, description, last_edit_time):
@@ -65,7 +63,6 @@ class Blog(Base):
                     return True
                 except Exception as e:
                     session().rollback()
-                    print(str(e))
                     return '数据库操作失败'
                 finally:
                     session().close()
@@ -75,3 +72,20 @@ class Blog(Base):
         else:
             session().close()
             return '没有这篇blog'
+
+    def update_rate(self, session, blog_id, rate):
+        blog = session().query(Blog).get(blog_id)
+
+        if blog.rate is None:
+            blog.rate = rate
+        else:
+            blog.rate = (blog.rate + rate) / 2.0
+        try:
+            session().commit()
+        except Exception:
+            session().rollback()
+            return '数据库操作失败'
+        else:
+            return True
+        finally:
+            session().close()

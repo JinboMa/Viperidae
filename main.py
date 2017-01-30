@@ -34,6 +34,7 @@ class Application(tornado.web.Application):
             (r'/blog/edit', Edit_Blog),
             (r'/blog/list', Blog_List),
             (r'/blog', Blog_Details),
+            (r'/blog/rate', Blog_Rate),
 
         ]
 
