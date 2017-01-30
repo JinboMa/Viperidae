@@ -16,24 +16,29 @@ class Blog_Rate(LoginRequireHandler):
         blog_id = self.get_argument('id')
         rate = float(self.get_argument('rate'))
 
-        recording = Blog_Rate_Recording(
-            user_id=self.user_id,
-            blog_id=blog_id,
-            rate=rate,
-            time=datetime.datetime.now()
-        )
+        if rate >= 0 and rate <= 5:
 
-        recording_result = recording.add_blog_rate_recording(self.datebase(), recording)
+            recording = Blog_Rate_Recording(
+                user_id=self.user_id,
+                blog_id=blog_id,
+                rate=rate,
+                time=datetime.datetime.now()
+            )
 
-        if recording_result is True:
-            update_rate_result = Blog().update_rate(self.datebase(), blog_id, rate)
-            if update_rate_result is True:
-                self.result['result'] = True
+            recording_result = recording.add_blog_rate_recording(self.datebase(), recording)
+
+            if recording_result is True:
+                update_rate_result = Blog().update_rate(self.datebase(), blog_id, rate)
+                if update_rate_result is True:
+                    self.result['result'] = True
+                else:
+                    self.result['result'] = False
+                    self.result['message']['error'] = update_rate_result
             else:
                 self.result['result'] = False
-                self.result['message']['error'] = update_rate_result
+                self.result['message']['error'] = recording_result
         else:
             self.result['result'] = False
-            self.result['message']['error'] = recording_result
+            self.result['message']['error'] = '评分范围错误'
 
         self.finish(self.result)
