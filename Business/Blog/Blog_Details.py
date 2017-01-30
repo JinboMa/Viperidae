@@ -25,7 +25,8 @@ class Blog_Details(LoginRequireHandler):
                         'content': blog.content,
                         'description': blog.description,
                         'create_time': str(blog.create_time),
-                        'last_edit_time': str(blog.last_edit_time)
+                        'last_edit_time': str(blog.last_edit_time),
+                        'rate': blog.rate
                     }
             }
 
