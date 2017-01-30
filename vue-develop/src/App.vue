@@ -20,7 +20,7 @@ export default {
 	},
 	data(){
 		return {
-			headerIndex : 1
+			headerIndex : "/"
 		}
 	}
 }
@@ -33,7 +33,7 @@ $AllWidth = 1050px
 	padding 0
 	outline none
 	box-sizing border-box
-	font-family "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif
+	font-family "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑", Courier, monospace
 html
 body
 #app
@@ -41,6 +41,9 @@ body
 a
 	text-decoration none
 	color inherit
+.content
+	width 1020px
+	margin 0 auto
 ::-webkit-scrollbar
 	width 2px
 	height 2px
