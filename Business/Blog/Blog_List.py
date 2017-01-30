@@ -3,7 +3,7 @@ from Handler.LoginRequireHandler import LoginRequireHandler
 from Module.User import User
 
 
-class Get_User_Blog(LoginRequireHandler):
+class Blog_List(LoginRequireHandler):
     def get(self, *args, **kwargs):
 
         start_id = 0
@@ -23,7 +23,10 @@ class Get_User_Blog(LoginRequireHandler):
                 blog.id:
                     {
                         'title': blog.title,
-                        'author': User().get_user_by_id(self.datebase(), blog.author).nickname
+                        'author': User().get_user_by_id(self.datebase(), blog.author).nickname,
+                        'description': blog.description,
+                        'rate': blog.rate,
+                        'create_time': blog.create_time
                     } for blog in blogs
                 }
         elif blogs is None:

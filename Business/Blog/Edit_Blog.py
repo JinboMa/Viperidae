@@ -15,12 +15,13 @@ class Edit_Blog(LoginRequireHandler):
         id = self.get_argument('id')
         title = self.get_argument('title')
         content = self.get_argument('content')
+        description = self.get_argument('description')
         last_edit_time = datetime.datetime.now()
 
         self.logger.info('blog id:{}, title:{}, content:{}, last_edit_time:{}'
                          .format(id, title, content, last_edit_time))
 
-        blog = Blog().edit_blog(self.datebase(), id, self.user_id, title, content, last_edit_time)
+        blog = Blog().edit_blog(self.datebase(), id, self.user_id, title, content, description, last_edit_time)
 
         if blog is True:
             self.result['result'] = True

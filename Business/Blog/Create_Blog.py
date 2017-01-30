@@ -15,6 +15,7 @@ class Create_Blog(LoginRequireHandler):
 
         title = self.get_argument('title')
         content = self.get_argument('content')
+        description = self.get_argument('description')
         author = self.user_id
         create_time = datetime.datetime.now()
         last_edit_time = datetime.datetime.now()
@@ -28,6 +29,7 @@ class Create_Blog(LoginRequireHandler):
         blog = Blog(
             title=title,
             content=content,
+            description=description,
             author=author,
             create_time=create_time,
             last_edit_time=last_edit_time

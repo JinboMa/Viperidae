@@ -21,7 +21,6 @@ def space():
 
 
 def get_logger(name, sign, module='Other'):
-    print('[LOGER] name:{}, sign:{}, module:{}'.format(name,sign,module))
     log_name = LOG_PATH + '{}-{}'.format(datetime.date.today(), module)
     try:
         handler = logging.handlers.RotatingFileHandler(log_name, maxBytes=1024 * 1024)
