@@ -12,7 +12,9 @@ class Blog(Base):
 
     id = Column(Integer(), primary_key=True, autoincrement=True)  # 主键
     title = Column(String(20))  # 标题
+    tags = Column(String(200))  # 标签
     content = Column(String(20000))  # 内容
+    description = Column(String(50))  # 说明
     author = Column(Integer(), ForeignKey(User.id))  # 所属
     create_time = Column(DateTime())  # 创建时间
     release_time = Column(DateTime())  # 发布时间
@@ -50,12 +52,13 @@ class Blog(Base):
             print('没有blog')
             return None
 
-    def edit_blog(self, session, id, user_id, title, content, last_edit_time):
+    def edit_blog(self, session, id, user_id, title, content, description, last_edit_time):
         blog = session().query(Blog).get(id)
         if blog is not None:
             if str(blog.author) == user_id:
                 blog.title = title
                 blog.content = content
+                blog.description = description
                 blog.last_edit_time = last_edit_time
                 try:
                     session().commit()

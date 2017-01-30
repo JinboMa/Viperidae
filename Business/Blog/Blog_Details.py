@@ -23,6 +23,7 @@ class Blog_Details(LoginRequireHandler):
                         'title': blog.title,
                         'author': User().get_user_by_id(self.datebase(), blog.author).nickname,
                         'content': blog.content,
+                        'description': blog.description,
                         'create_time': str(blog.create_time),
                         'last_edit_time': str(blog.last_edit_time)
                     }

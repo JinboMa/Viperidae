@@ -14,7 +14,6 @@ from Business.Event import *
 
 class Application(tornado.web.Application):
     def __init__(self):
-
         handlers = [
 
             # --------------Tool-------------- #
@@ -33,7 +32,7 @@ class Application(tornado.web.Application):
 
             (r'/blog/create', Create_Blog),
             (r'/blog/edit', Edit_Blog),
-            (r'/blog/list', Get_User_Blog),
+            (r'/blog/list', Blog_List),
             (r'/blog', Blog_Details),
 
         ]
@@ -45,18 +44,19 @@ class Application(tornado.web.Application):
         )
         tornado.web.Application.__init__(self, handlers, **settings)
 
-        engine = create_engine(
-            'mysql+pymysql://root:xuzhaoning@localhost:3306/test?charset=utf8',
+        self.engine = create_engine(
+            'mysql+pymysql://' + DATABASE['USERNAME'] + ':' + DATABASE['PASSWORD'] + '@' + DATABASE['HOST'] + ':' +
+            DATABASE['POST'] + '/personal?charset=utf8',
             echo=DATABASE_DEBUG)
 
-        # engine = create_engine(
-        #     'mysql+pymysql://root:xuzhaoning@23.105.208.8:3306/personal?charset=utf8',
-        #     echo=DATABASE_DEBUG)
-
-        self.engine = engine
-        self.datebase = scoped_session(sessionmaker(bind=engine,
-                                                    autocommit=False, autoflush=True,
-                                                    expire_on_commit=False))
+        self.datebase = scoped_session(
+            sessionmaker(
+                bind=self.engine,
+                autocommit=False,
+                autoflush=True,
+                expire_on_commit=False
+            )
+        )
 
 
 def main():
@@ -67,5 +67,5 @@ def main():
     tornado.ioloop.IOLoop.current().start()
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     main()
