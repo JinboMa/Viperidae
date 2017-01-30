@@ -21,22 +21,23 @@ import Index from './pages/Index'
 import Login from './pages/Login'
 import Registration from './pages/Registration'
 import Blog from './pages/Blog'
+import BlogList from './pages/BlogList'
 
 //vue-resource引入(发送http请求)
 import VueResource from 'vue-resource'
 Vue.use(VueResource)
 Vue.http.options.emulateJSON = true
 Vue.http.options.emulateHTTP = true
-// Vue.http.options.credentials = true
+Vue.http.options.credentials = true
 Vue.http.interceptors.push((request, next) => {
 		// ...
 		// 请求发送前的处理逻辑
-		console.log("请求发送前",request)
+		// console.log("请求发送前",request)
 		// ...
 		next((response) => {
 		// ...
 		// 请求发送后的处理逻辑
-		console.log("请求发送后",response)
+		// console.log("请求发送后",response)
 		// ...
 		// 根据请求的状态，response参数会返回给successCallback或errorCallback
 		return response
@@ -44,7 +45,7 @@ Vue.http.interceptors.push((request, next) => {
 	})
 
 //全局变量地址
-Vue.prototype.URL = "http://localhost:8088/"
+Vue.prototype.URL = "http://23.105.208.8:8088/"
 //this.ajax(this.setAjax("login",this.formData,this.success,this.fail))
 //全局接口配置
 Vue.prototype.ajaxConfig = {
@@ -118,6 +119,10 @@ new Vue({
 		{
 			path: "/Blog",
 			component: Blog
+		},
+		{
+			path: "/BlogList",
+			component: BlogList
 		}]
 	}),
 	template: '<App/>',
@@ -139,15 +144,15 @@ Vue.prototype.ajax = function(data){
 		url : this.URL+data.url,
 		method : data.method,
 		timeout: 5000
-	}
+	},
+	formData = JSON.parse(JSON.stringify(data.formData))
 	if(data.md5){
-		data.formData.password = md5(data.formData.password)
-		console.log(data.formData.password)
+		formData.password = md5(data.formData.password)
 	}
 	if(data.method == "GET"){
-		postData.params = data.formData
+		postData.params = formData
 	}else if(data.method == "POST"){
-		postData.body = data.formData
+		postData.body = formData
 	}
 	Vue.http(postData).then(
 	//成功函数

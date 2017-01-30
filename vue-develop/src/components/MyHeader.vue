@@ -1,8 +1,7 @@
 <template lang="pug">
 	.myHeader
-		el-menu.el-menu-demo(theme="dark" v-bind:default-active="String(headerIndex)" mode="horizontal")
-			el-menu-item(index="1")
-				router-link(to="/")
+		el-menu.el-menu-demo(theme="dark" v-bind:default-active="headerIndex" mode="horizontal" v-bind:router="true")
+			el-menu-item(index="/")
 					i.el-icon-menu
 			el-submenu(index="2")
 				template(slot="title") 生活
@@ -11,14 +10,14 @@
 				el-menu-item(index="2-3") 其他列表
 			el-submenu(index="3")
 				template(slot="title") 博客
-				el-menu-item(index="3-1")
-					router-link(to="/Blog") 新建博客
-				el-menu-item(index="3-2") 我的博客
+				el-menu-item(index="Blog") 新建博客
+				el-menu-item(index="BlogList") 我的博客
 			el-menu-item(index="4") 聊天
 			el-menu-item(index="5") 设置
 			el-menu-item.time(index="0" style="float:right") {{time}}
-			el-menu-item.time(index="-1" style="float:right")
-				router-link(to="/Login") 登录/注册
+			el-menu-item.time(index="Login" style="float:right") 登录/注册
+						
+
 </template>
 
 <script>
