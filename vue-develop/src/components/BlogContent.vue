@@ -1,5 +1,5 @@
 <template>
-<div class="blogContent">
+<router-link class="blogContent" :to="{ path: 'Blog', query: { blogId: blogId }}">
 	<div class="authorMsg">
 		<img :src="blogMsg.authorImg">
 		<span class="author">{{blogMsg.author}}</span>
@@ -8,16 +8,17 @@
 	</div>
 	<h3>{{blogMsg.title}}</h3>
 	<p>{{blogMsg.description}}</p>
-</div>
+</router-link>
 </template>
 <script>
 export default {
-	props : ["blogMsg"]
+	props : ["blogMsg","blogId"]
 }
 </script>
 
 <style scoped lang="stylus">
 .blogContent
+	display block
 	width 100%
 	border-bottom 1px solid #f0f0f0
 	padding 20px

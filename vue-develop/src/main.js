@@ -44,63 +44,6 @@ Vue.http.interceptors.push((request, next) => {
 	})
 	})
 
-//全局变量地址
-Vue.prototype.URL = "http://23.105.208.8:8088/"
-//this.ajax(this.setAjax("login",this.formData,this.success,this.fail))
-//全局接口配置
-Vue.prototype.ajaxConfig = {
-	login : {
-				method : "POST",
-				url : "login",
-				successMsg : "登录成功",
-				failMsg : "登录失败",
-				successAlert : true,
-				failAlert : true,
-				md5 : true
-	},
-	registration : {
-				method : "POST",
-				url : "registration",
-				successMsg : "注册成功",
-				failMsg : "注册失败",
-				successAlert : true,
-				failAlert : true,
-				md5 : true
-	},
-	userSetting : {
-				method : "POST",
-				url : "user/setting",
-				successMsg : "设置成功",
-				failMsg : "设置失败",
-				successAlert : true,
-				failAlert : true
-	},
-	blogCreate : {
-				method : "POST",
-				url : "blog/create",
-				successMsg : "保存成功",
-				failMsg : "保存失败",
-				successAlert : true,
-				failAlert : true
-	},
-	blogEdit : {
-				method : "POST",
-				url : "blog/edit",
-				successMsg : "保存成功",
-				failMsg : "保存失败",
-				successAlert : true,
-				failAlert : true
-	},
-	blogList : {
-				method : "GET",
-				url : "blog/list",
-				successMsg : "获取成功",
-				failMsg : "获取失败",
-				successAlert : true,
-				failAlert : true
-	},
-}
-
 new Vue({
 	el: '#app',
 	router: new Router({
@@ -126,59 +69,122 @@ new Vue({
 		}]
 	}),
 	template: '<App/>',
-	components: { App }
-})
-
-//全局ajax处理
-Vue.prototype.setAjax = function(name,formData,success,fail){
-	var postData = this.ajaxConfig[name];
-		postData.formData = formData
-		postData.success = success
-		postData.fail = fail
-	return postData
-}
-
-//全局ajax方法
-Vue.prototype.ajax = function(data){
-	var postData = {
-		url : this.URL+data.url,
-		method : data.method,
-		timeout: 5000
-	},
-	formData = JSON.parse(JSON.stringify(data.formData))
-	if(data.md5){
-		formData.password = md5(data.formData.password)
-	}
-	if(data.method == "GET"){
-		postData.params = formData
-	}else if(data.method == "POST"){
-		postData.body = formData
-	}
-	Vue.http(postData).then(
-	//成功函数
-	(res)=>{
-		//正确提示
-		if(res.body.result && data.successAlert){
-			this.$message({
-				message: data.successMsg,
-				type: 'success'
-			})
-			data.success(res.body)
-		}else if(data.failAlert){
-			//错误提示
-			this.$message.error(res.body.message.error)
+	components: { App },
+	created : function(){
+		//全局变量地址
+		Vue.prototype.URL = "http://23.105.208.8:8088/"
+		//this.ajax(this.setAjax("login",this.formData,this.success,this.fail))
+		//全局接口配置
+		Vue.prototype.ajaxConfig = {
+			login : {
+						method : "POST",
+						url : "login",
+						successMsg : "登录成功",
+						failMsg : "登录失败",
+						successAlert : true,
+						failAlert : true,
+						md5 : true
+			},
+			registration : {
+						method : "POST",
+						url : "registration",
+						successMsg : "注册成功",
+						failMsg : "注册失败",
+						successAlert : true,
+						failAlert : true,
+						md5 : true
+			},
+			userSetting : {
+						method : "POST",
+						url : "user/setting",
+						successMsg : "设置成功",
+						failMsg : "设置失败",
+						successAlert : true,
+						failAlert : true
+			},
+			blogCreate : {
+						method : "POST",
+						url : "blog/create",
+						successMsg : "保存成功",
+						failMsg : "保存失败",
+						successAlert : true,
+						failAlert : true
+			},
+			blogEdit : {
+						method : "POST",
+						url : "blog/edit",
+						successMsg : "保存成功",
+						failMsg : "保存失败",
+						successAlert : true,
+						failAlert : true
+			},
+			blogList : {
+						method : "GET",
+						url : "blog/list",
+						successMsg : "获取成功",
+						failMsg : "获取失败",
+						successAlert : true,
+						failAlert : true
+			},
+			blog : {
+						method : "GET",
+						url : "blog",
+						successMsg : "获取成功",
+						failMsg : "获取失败",
+						successAlert : true,
+						failAlert : true
+			},
 		}
-		this.loading = false
-	},
-	//失败函数
-	(res)=>{
-		this.$message.error(`网络错误'${res.status}',${data.failMsg}`)
-		this.loading = false
-		data.fail(res)
-	})
-}
-
-Vue.prototype.setHeight = function(num){
-	let height = window.innerHeight
-	return (height - 60 - num)
-}
+		//全局ajax处理
+		Vue.prototype.setAjax = function(name,formData,success,fail){
+			var postData = this.ajaxConfig[name];
+				postData.formData = formData
+				postData.success = success
+				postData.fail = fail
+			return postData
+		}
+		//全局ajax方法
+		Vue.prototype.ajax = function(data){
+			var postData = {
+				url : this.URL+data.url,
+				method : data.method,
+				timeout: 5000
+			},
+			formData = JSON.parse(JSON.stringify(data.formData))
+			if(data.md5){
+				formData.password = md5(data.formData.password)
+			}
+			if(data.method == "GET"){
+				postData.params = formData
+			}else if(data.method == "POST"){
+				postData.body = formData
+			}
+			Vue.http(postData).then(
+			//成功函数
+			(res)=>{
+				//正确提示
+				if(res.body.result && data.successAlert){
+					this.$message({
+						message: data.successMsg,
+						type: 'success'
+					})
+					data.success(res.body)
+				}else if(data.failAlert){
+					//错误提示
+					this.$message.error(res.body.message.error)
+				}
+				this.loading = false
+			},
+			//失败函数
+			(res)=>{
+				this.$message.error(`网络错误'${res.status}',${data.failMsg}`)
+				this.loading = false
+				data.fail(res)
+			})
+		}
+		Vue.prototype.setHeight = function(num){
+			let height = window.innerHeight
+			return (height - 60 - num)
+		}
+	}
+})

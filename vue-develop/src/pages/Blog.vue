@@ -6,7 +6,7 @@
 	<div class="htmlTit" :class="{hide:hide}">HTML</div>
 	<el-card class="card" v-bind:body-style="cardStyle" v-bind:class="{toLeft: !toLeft}">
 		<input class="title" v-model="formData.title" placeholder="在此填写标题">
-		<textarea class="description" maxlength="50" placeholder="在此填写文章描述"></textarea>
+		<textarea class="description" maxlength="50" placeholder="在此填写文章描述" v-model="formData.description"></textarea>
 		<div class="tags">
 			<el-select class="tagSelect" v-model="formData.tag" multiple filterable allow-create placeholder="请选择或新增文章标签">
 				<el-option v-for="item in tags" :value="item"></el-option>
@@ -48,6 +48,7 @@ export default {
 		}
 	},
 	created: function () {
+		this.blogId = this.$route.query.blogId
 		marked.setOptions({
 			highlight: function (code) {
 				return highlight.highlightAuto(code).value
@@ -57,9 +58,7 @@ export default {
 		window.onresize = function(){
 			this.blogH = this.setHeight
 		}
-		window.onkeydown = function(e){
-			// console.log(e.keyCode)
-		}
+		this.getMessage()
 	},
 	computed : {
 		markedHtml : function(){
@@ -67,13 +66,20 @@ export default {
 		}
 	},
 	methods : {
+		//get编辑的blog的信息
+		getMessage : function(){
+			if(this.blogId || this.blogId === 0){
+				this.loading = true
+				this.ajax(this.setAjax("blog",{id : this.blogId},this.success,this.fail))
+			}
+		},
 		//发送登录请求
 		postMessage : function(){
 			this.loading = true
-			if(blogId || blogId === 0){
-				this.ajax(this.setAjax("blogCreate",this.formData,this.success,this.fail))
-			}else{
+			if(this.blogId || this.blogId === 0){
 				this.ajax(this.setAjax("blogEdit",this.formData,this.success,this.fail))
+			}else{
+				this.ajax(this.setAjax("blogCreate",this.formData,this.success,this.fail))
 			}
 		},
 		//表单验证
