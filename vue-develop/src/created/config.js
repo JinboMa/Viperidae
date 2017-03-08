@@ -1,6 +1,6 @@
 import Vue from 'vue'
 
-export default function(that){
+export default function(){
 	//this.ajax(this.setAjax("login",this.formData,this.success,this.fail))
 	//全局接口配置
 	Vue.prototype.ajaxConfig = {
