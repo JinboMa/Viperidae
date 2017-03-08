@@ -1,4 +1,4 @@
-<template lang="pug">
+<template lang="jade">
 	#app
 		my-header(:headerIndex="headerIndex")
 		put-top
@@ -43,6 +43,7 @@ a
 	color inherit
 .content
 	width 1020px
+	min-height 500px
 	margin 0 auto
 ::-webkit-scrollbar
 	width 2px

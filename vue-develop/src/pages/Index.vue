@@ -1,10 +1,5 @@
-<template>
-	<div class="index">
-		<el-popover ref="popover4" placement="bottom" width="400" trigger="hover">
-			
-		</el-popover>
-		<el-button v-popover:popover4>click 激活</el-button>
-	</div>
+<template lang="jade">
+	.index
 </template>
 
 <script>

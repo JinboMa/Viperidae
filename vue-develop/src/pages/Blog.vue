@@ -1,21 +1,18 @@
-<template>
-<div class="blog" :style="{height:blogH}" @click="hide = true" v-loading="loading" element-loading-text="正在提交,请稍等">
-	<textarea class="content" v-model="formData.content" spellcheck="false"></textarea>
-	<div class="html" v-html="markedHtml"></div>
-	<div class="markTit" :class="{hide:hide}">Markdown</div>
-	<div class="htmlTit" :class="{hide:hide}">HTML</div>
-	<el-card class="card" v-bind:body-style="cardStyle" v-bind:class="{toLeft: !toLeft}">
-		<input class="title" v-model="formData.title" placeholder="在此填写标题">
-		<textarea class="description" maxlength="50" placeholder="在此填写文章描述" v-model="formData.description"></textarea>
-		<div class="tags">
-			<el-select class="tagSelect" v-model="formData.tag" multiple filterable allow-create placeholder="请选择或新增文章标签">
-				<el-option v-for="item in tags" :value="item"></el-option>
-			</el-select>
-		</div>
-		<el-button class="button right" type="primary" @click="postMessage">提交此篇文章</el-button>
-		<el-button class="button left" type="text" @click="toLeft = false">收起标题</el-button>
-	</el-card>
-	<el-switch class="switch" v-model="toLeft" on-color="#324057" on-text="标题" off-text="标题"></el-switch>
+<template lang="jade">
+.blog(:style="{height:blogH}",@click="hide = true",v-loading="loading",element-loading-text="正在提交,请稍等")
+	textarea.content(v-model="formData.content",spellcheck="false")
+	.html(v-html="markedHtml")
+	.markTit(:class="{hide:hide}") Markdown
+	.htmlTit(:class="{hide:hide}") HTML
+	el-card.card(:body-style="cardStyle",:class="{toLeft: !toLeft}")
+		input.title(v-model="formData.title",placeholder="在此填写标题")
+		textarea.description( maxlength="50",placeholder="在此填写文章描述",v-model="formData.description")
+		.tags
+			el-select.tagSelect(v-model="formData.tag",multiple,filterable,allow-create,placeholder="请选择或新增文章标签")
+				el-option(v-for="item in tags",:value="item")
+		el-button.button.right(type="primary",@click="postMessage") 提交此篇文章
+		el-button.button.left(type="text",@click="toLeft = false") 收起标题
+	el-switch.switch(v-model="toLeft",on-color="#324057",on-text="标题",off-text="标题")
 </div>
 </template>
 

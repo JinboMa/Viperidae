@@ -1,16 +1,16 @@
-<template lang="pug">
+<template lang="jade">
 .registration
-	el-card.box-card(v-loading="loading" element-loading-text="正在注册")
+	el-card.box-card(v-loading="loading",element-loading-text="正在注册")
 		.logo 注 册
-		el-form(v-bind:model="formData" v-bind:rules="rules" ref="regForm")
-			el-form-item(label="手机号" prop="telphone")
-				el-input(v-model="formData.telphone" placeholder="手机号")
-			el-form-item(label="用户名" prop="nickname")
-				el-input(v-model="formData.nickname" placeholder="昵称")
-			el-form-item(label="密码" prop="password")
-				el-input(v-model="formData.password" type="password" placeholder="6-20位")
+		el-form(:model="formData",:rules="rules",ref="regForm")
+			el-form-item(label="手机号",prop="telphone")
+				el-input(v-model="formData.telphone",placeholder="手机号")
+			el-form-item(label="用户名",prop="nickname")
+				el-input(v-model="formData.nickname",placeholder="昵称")
+			el-form-item(label="密码",prop="password")
+				el-input(v-model="formData.password",type="password",placeholder="6-20位")
 			el-form-item
-				el-button.regBtn(type="success" @click="submitForm('regForm')" size="large") 注 册
+				el-button.regBtn(type="success",@click="submitForm('regForm')",size="large") 注 册
 				router-link.login(to="/Login") 登录
 </template>
 

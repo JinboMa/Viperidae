@@ -1,15 +1,15 @@
-<template lang="pug">
+<template lang="jade">
 .login
-	el-card.box-card(v-loading="loading" element-loading-text="正在登录")
+	el-card.box-card(v-loading="loading",element-loading-text="正在登录")
 		.logo LOGO
-		el-form(v-bind:model="formData" v-bind:rules="rules" ref="loginForm")
-			el-form-item(label="手机号" prop="telphone")
+		el-form(:model="formData",:rules="rules",ref="loginForm")
+			el-form-item(label="手机号",prop="telphone")
 				el-input(v-model="formData.telphone")
-			el-form-item(label="密码" prop="password")
-				el-input(v-model="formData.password" type="password")
+			el-form-item(label="密码",prop="password")
+				el-input(v-model="formData.password",type="password")
 				a.forget 忘记密码
 			el-form-item
-				el-button.loginBtn(type="success" @click="submitForm('loginForm')" size="large") 登 录
+				el-button.loginBtn(type="success",@click="submitForm('loginForm')",size="large") 登 录
 				router-link.signIn(to="/Registration") 注册
 </template>
 

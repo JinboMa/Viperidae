@@ -1,14 +1,12 @@
-<template>
-<router-link class="blogContent" :to="{ path: 'Blog', query: { blogId: blogId }}">
-	<div class="authorMsg">
-		<img :src="blogMsg.authorImg">
-		<span class="author">{{blogMsg.author}}</span>
-		<span class="createTime">{{blogMsg.createTime}}</span>
-		<el-rate class="rate" v-model="blogMsg.rate" disabled show-text text-color="#ff9900"></el-rate>
-	</div>
-	<h3>{{blogMsg.title}}</h3>
-	<p>{{blogMsg.description}}</p>
-</router-link>
+<template lang="jade">
+router-link.blogContent(:to="{ path: 'Blog', query: { blogId: blogId }}")
+	.authorMsg
+		img(:src="blogMsg.authorImg")
+		span.author {{blogMsg.author}}
+		span.createTime {{blogMsg.createTime}}
+		el-rate.rate(v-model="blogMsg.rate",disabled,show-text,text-color="#ff9900")
+	h3 {{blogMsg.title}}
+	p {{blogMsg.description}}
 </template>
 <script>
 export default {

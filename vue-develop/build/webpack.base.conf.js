@@ -27,6 +27,10 @@ module.exports = {
       'src': path.resolve(__dirname, '../src'),
       'assets': path.resolve(__dirname, '../src/assets'),
       'components': path.resolve(__dirname, '../src/components'),
+      'pages': path.resolve(__dirname, '../src/pages'),
+      'router': path.resolve(__dirname, '../src/router'),
+      'created': path.resolve(__dirname, '../src/created'),
+      'resource': path.resolve(__dirname, '../src/resource'),
       'marked': path.resolve(__dirname, '../node_modules/marked'),
       'highlight': path.resolve(__dirname, '../node_modules/highlight.js')
     }

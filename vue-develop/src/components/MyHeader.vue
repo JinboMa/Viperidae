@@ -1,6 +1,6 @@
-<template lang="pug">
+<template lang="jade">
 	.myHeader
-		el-menu.el-menu-demo(theme="dark" v-bind:default-active="headerIndex" mode="horizontal" v-bind:router="true")
+		el-menu.el-menu-demo(theme="dark",:default-active="headerIndex",mode="horizontal",:router="true")
 			el-menu-item(index="/")
 					i.el-icon-menu
 			el-submenu(index="2")
@@ -14,8 +14,8 @@
 				el-menu-item(index="BlogList") 我的博客
 			el-menu-item(index="4") 聊天
 			el-menu-item(index="5") 设置
-			el-menu-item.time(index="0" style="float:right") {{time}}
-			el-menu-item.time(index="Login" style="float:right") 登录/注册
+			el-menu-item.time(index="0",style="float:right") {{time}}
+			el-menu-item.time(index="Login",style="float:right") 登录/注册
 						
 
 </template>
