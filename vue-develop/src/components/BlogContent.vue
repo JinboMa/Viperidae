@@ -1,16 +1,55 @@
 <template lang="jade">
-router-link.blogContent(:to="{ path: 'Blog', query: { blogId: blogId }}")
+.blogContent(@mouseenter="hover",@mouseleave="mouseout",@click="toBlog")
 	.authorMsg
 		img(:src="blogMsg.authorImg")
 		span.author {{blogMsg.author}}
-		span.createTime {{blogMsg.createTime}}
+		span.createTime {{blogMsg.time}}
 		el-rate.rate(v-model="blogMsg.rate",disabled,show-text,text-color="#ff9900")
-	h3 {{blogMsg.title}}
-	p {{blogMsg.description}}
+		el-button.right(type="danger",size="small",v-if="isHover",@click.stop="delBlog") 删除
+	h3(:title="blogMsg.title") {{blogMsg.title}}
+	//- p {{blogMsg.description}}
 </template>
 <script>
 export default {
-	props : ["blogMsg","blogId"]
+	props : ["blogMsg","blogId"],
+	data(){
+		return{
+			isHover : false,
+			delData : []
+		}
+	},
+	methods : {
+		hover(){
+			this.isHover = true
+		},
+		mouseout(){
+			this.isHover = false
+		},
+		toBlog(){
+			this.$router.push({ path: 'Blog', query: { blogId: this.blogId }})
+		},
+		delBlog(){
+			this.delData.push(this.blogId)
+			this.$confirm('确定要删除当前文章么?', '提示', {
+				confirmButtonText: '确定',
+				cancelButtonText: '取消',
+				type: 'warning'
+			}).then(() => {
+				this.ajax(this.setAjax("blogDelete",{list:this.delData},this.success,this.fail))
+			}).catch(() => {
+				this.$message({
+					type: 'info',
+					message: '已取消删除'
+				});
+			});
+		},
+		success(res){
+			this.$emit('resetBlogList')
+		},
+		fail(res){
+			console.log('失败',res)
+		}
+	}
 }
 </script>
 
@@ -48,6 +87,7 @@ h3
 	color #969696
 	font-weight 700
 	margin-bottom 5px
+	height 24px
 .rate
 	display inline-block
 	vertical-align middle

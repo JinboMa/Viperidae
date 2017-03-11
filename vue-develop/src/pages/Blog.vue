@@ -6,10 +6,10 @@
 	.htmlTit(:class="{hide:hide}") HTML
 	el-card.card(:body-style="cardStyle",:class="{toLeft: !toLeft}")
 		input.title(v-model="formData.title",placeholder="在此填写标题")
-		textarea.description( maxlength="50",placeholder="在此填写文章描述",v-model="formData.description")
-		.tags
-			el-select.tagSelect(v-model="formData.tag",multiple,filterable,allow-create,placeholder="请选择或新增文章标签")
-				el-option(v-for="item in tags",:value="item")
+		//- textarea.description(maxlength="50",placeholder="在此填写文章描述",v-model="formData.description")
+		//- .tags
+		//- 	el-select.tagSelect(v-model="formData.tag",multiple,filterable,allow-create,placeholder="请选择或新增文章标签")
+		//- 		el-option(v-for="item in tags",:value="item")
 		el-button.button.right(type="primary",@click="postMessage") 提交此篇文章
 		el-button.button.left(type="text",@click="toLeft = false") 收起标题
 	el-switch.switch(v-model="toLeft",on-color="#324057",on-text="标题",off-text="标题")
@@ -32,6 +32,7 @@ export default {
 			loading : false,
 			//表单信息
 			formData: {
+				id : null,
 				content : '',
 				title : '',
 				tag : [],
@@ -67,8 +68,14 @@ export default {
 		getMessage : function(){
 			if(this.blogId || this.blogId === 0){
 				this.loading = true
-				this.ajax(this.setAjax("blog",{id : this.blogId},this.success,this.fail))
+				this.ajax(this.setAjax("blogDetails",{id : this.blogId},this.getSuccess,this.getFail))
 			}
+		},
+		getSuccess(res){
+			this.formData = res
+		},
+		getFail(res){
+			console.log('失败',res)
 		},
 		//发送登录请求
 		postMessage : function(){
@@ -76,7 +83,7 @@ export default {
 			if(this.blogId || this.blogId === 0){
 				this.ajax(this.setAjax("blogEdit",this.formData,this.success,this.fail))
 			}else{
-				this.ajax(this.setAjax("blogCreate",this.formData,this.success,this.fail))
+				this.ajax(this.setAjax("blogAdd",this.formData,this.success,this.fail))
 			}
 		},
 		//表单验证
@@ -85,7 +92,7 @@ export default {
 		},
 		//提交成功
 		success : function(res){
-			this.$router.push('/')
+			this.$router.push('/BlogList')
 		},
 		//提交失败
 		fail : function(res){

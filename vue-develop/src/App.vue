@@ -1,8 +1,8 @@
 <template lang="jade">
 	#app
-		my-header(:headerIndex="headerIndex")
+		my-header(:headerIndex="headerIndex",:isLogin="isLogin",@logout="logout")
 		put-top
-		router-view
+		router-view(@login="login")
 </template>
 
 <script>
@@ -15,12 +15,27 @@ export default {
 		MyHeader,
 		PutTop
 	},
-	methods: {
-		
-	},
 	data(){
 		return {
-			headerIndex : "/"
+			headerIndex : "/",
+			isLogin : false
+		}
+	},
+	watch:{
+		'$route':function(to,from){
+			this.headerIndex = to.path
+		}
+	},
+	created(){
+		localStorage.getItem('token') && (this.isLogin = true)
+	},
+	methods:{
+		logout(){
+			this.isLogin = false
+			this.$router.push({path : '/Login'})
+		},
+		login(){
+			this.isLogin = true
 		}
 	}
 }
@@ -60,4 +75,7 @@ a
 	float left
 .right
 	float right
+.prompt
+	font-size 12px
+	color red
 </style>

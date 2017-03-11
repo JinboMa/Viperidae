@@ -12,21 +12,26 @@ export default new Router({
 		mode: "history",
 		routes: [{
 			path: "/",
-			component: Index
+			component: Index,
+			name: "Home"
 		},{
 			path: "/Login",
-			component: Login
+			component: Login,
+			name: "Login"
 		},
 		{
 			path: "/Registration",
-			component: Registration
+			component: Registration,
+			name: "Registration"
 		},
 		{
 			path: "/Blog",
-			component: Blog
+			component: Blog,
+			name: "Blog"
 		},
 		{
 			path: "/BlogList",
-			component: BlogList
+			component: BlogList,
+			name: "BlogList"
 		}]
 	})

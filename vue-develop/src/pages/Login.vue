@@ -3,8 +3,8 @@
 	el-card.box-card(v-loading="loading",element-loading-text="正在登录")
 		.logo LOGO
 		el-form(:model="formData",:rules="rules",ref="loginForm")
-			el-form-item(label="手机号",prop="telphone")
-				el-input(v-model="formData.telphone")
+			el-form-item(label="用户名",prop="username")
+				el-input(v-model="formData.username" placeholder="用户名/手机号/邮箱")
 			el-form-item(label="密码",prop="password")
 				el-input(v-model="formData.password",type="password")
 				a.forget 忘记密码
@@ -21,14 +21,13 @@ export default {
 			loading : false,
 			//表单信息
 			formData: {
-				telphone: '',
+				username: '',
 				password: ''
 			},
 			//表单规则
 			rules: {
-				telphone: [
-				{ required: false, message: '请输入手机号', trigger: 'blur' },
-				{ min: 11,max: 11, message: '请输入正确的手机号', trigger: 'blur' }
+				username: [
+				{ required: false, message: '请输入用户名', trigger: 'blur' }
 				],
 				password: [
 				{ required: false, message: '请输入密码', trigger: 'blur' },
@@ -49,13 +48,16 @@ export default {
 					this.loading = true
 					this.postMessage()
 				} else {
-					this.$message.error("请正确填写数据")
+					this.$message.error("请正确填写用户名和密码")
 				}
 			})
 		},
 		//提交成功
 		success : function(res){
-			this.$router.push({ path: '/', query: { nickname : this.formData.nickname }})
+			localStorage.setItem('token',res.token)
+			localStorage.setItem('username',res.username)
+			this.$emit('login')
+			this.$router.go(-1)
 		},
 		//提交失败
 		fail : function(res){

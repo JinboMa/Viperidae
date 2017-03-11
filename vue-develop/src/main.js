@@ -25,13 +25,15 @@ Vue.use(VueResource)
 import resource from 'resource'
 resource()
 
+//给js原生对象加方法
+
 new Vue({
 	el: '#app',
 	router,
 	template: '<App/>',
 	components: { App },
 	created: function(){
-		created(this)
+		created()
 		//全局ajax处理
 		Vue.prototype.setAjax = function(name,formData,success,fail){
 			var postData = this.ajaxConfig[name];
@@ -42,8 +44,13 @@ new Vue({
 		}
 		//全局ajax方法
 		Vue.prototype.ajax = function(data){
+			if(data.token && !localStorage.getItem('token')){
+				this.$message.warning("还没有登录哦,请先登录")
+				this.$router.push({ path : '/Login'})
+				return ;
+			}
 			var postData = {
-				url : this.URL+data.url,
+				url : this.URL + data.url,
 				method : data.method,
 				timeout: 5000
 			},
@@ -51,21 +58,25 @@ new Vue({
 
 			data.md5 && (formData.password = md5(data.formData.password))
 
+			data.token && (formData.token = localStorage.getItem('token'))
+
 			data.method == "GET" ? postData.params = formData : postData.body = formData
 
 			Vue.http(postData).then(
 			//成功函数
 			(res)=>{
-				//正确提示
-				if(res.body.result && data.successAlert){
-					this.$message({
-						message: data.successMsg,
-						type: 'success'
-					})
-					data.success(res.body)
-				}else if(data.failAlert){
-					//错误提示
-					this.$message.error(res)//res.body.message.error
+				var message = res.body.message
+
+				if(res.body.result){
+					!message && (message = data.successMsg)
+					data.successAlert && this.$message.success(message)
+					//成功返回的参数
+					data.success(res.body.data)
+				}else{
+					!message && (message = data.failMsg)
+					console.log(message)
+					data.failAlert && this.$message.error(message)
+					data.fail(res.body)
 				}
 				this.loading = false
 			},
